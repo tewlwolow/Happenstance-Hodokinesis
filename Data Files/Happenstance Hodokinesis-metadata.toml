@@ -14,5 +14,8 @@ wait-until-initialize = false
 [dependencies.mwse]
 buildnumber = 3212
 
+[dependencies.mods."Happenstance Hodokinesis"]
+plugin = "Happenstance Hodokinesis.ESP"
+
 [dependencies.mge-xe]
 version = ">=0.15.0"
