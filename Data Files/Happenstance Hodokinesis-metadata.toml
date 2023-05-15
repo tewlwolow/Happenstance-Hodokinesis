@@ -1,0 +1,18 @@
+[package]
+name = "Happenstance Hodokinesis"
+description = "A mod that adds a new randomised adventure/gameplay effects based on the player's Luck."
+authors = ["tewlwolow"]
+version = "0.0.1"
+# homepage = "https://www.nexusmods.com/morrowind/mods/"
+repository = "https://github.com/tewlwolow/Happenstance-Hodokinesis"
+
+
+[tools.mwse]
+lua-mod = "tew.Happenstance Hodokinesis"
+wait-until-initialize = false
+
+[dependencies.mwse]
+buildnumber = 3212
+
+[dependencies.mge-xe]
+version = ">=0.15.0"
