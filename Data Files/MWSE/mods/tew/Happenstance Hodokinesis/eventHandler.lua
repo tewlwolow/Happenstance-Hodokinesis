@@ -1,9 +1,9 @@
-local eventsHandler = {}
+local eventHandler = {}
 
 local constants = require("tew.Happenstance Hodokinesis.constants")
 local controller = require("tew.Happenstance Hodokinesis.controller")
 
-function eventsHandler.onEquip(e)
+function eventHandler.onEquip(e)
 	if e.item then
 		if e.item.id then
 			if (e.reference == tes3.player) and (e.item.id == constants.ALEAPSYCHON_ID) then
@@ -13,7 +13,7 @@ function eventsHandler.onEquip(e)
 	end
 end
 
-function eventsHandler.onKeyDown(e)
+function eventHandler.onKeyDown(e)
 	if (e.isShiftDown) then
 		for _, stack in pairs(tes3.player.object.inventory) do
 			if stack.object.id == constants.ALEAPSYCHON_ID then
@@ -25,4 +25,4 @@ function eventsHandler.onKeyDown(e)
 end
 
 
-return eventsHandler
+return eventHandler
