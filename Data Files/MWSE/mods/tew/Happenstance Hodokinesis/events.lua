@@ -1,6 +1,6 @@
 -- This is where we define all our events. --
 
-local controller = require("tew.Happenstance Hodokinesis.controller")
+local eventsHandler = require("tew.Happenstance Hodokinesis.eventsHandler")
 
-event.register(tes3.event.equip, controller.roll)
-event.register(tes3.event.keyDown, controller.roll, { filter = tes3.scanCode.h })
+event.register(tes3.event.equip, eventsHandler.onEquip)
+event.register(tes3.event.keyDown, eventsHandler.onKeyDown, { filter = tes3.scanCode.h })
