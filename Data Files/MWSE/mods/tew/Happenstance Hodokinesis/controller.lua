@@ -7,7 +7,7 @@ local conditions = require("tew.Happenstance Hodokinesis.conditions")
 local helper = require("tew.Happenstance Hodokinesis.helper")
 --
 
-function controller.roll(e)
+function controller.roll()
 	-- This is a base chance for either a bonus or a malus to be applied, based on the player's Luck. --
 	local boon = helper.calcActionChance() > math.random()
 
