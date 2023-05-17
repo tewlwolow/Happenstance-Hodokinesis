@@ -1,3 +1,5 @@
+-- Here we handle event triggers. --
+
 local eventHandler = {}
 
 local constants = require("tew.Happenstance Hodokinesis.constants")
