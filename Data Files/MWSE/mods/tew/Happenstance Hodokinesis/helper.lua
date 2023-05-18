@@ -13,20 +13,102 @@ function helper.calcBoon()
 	return helper.calcActionChance() > math.random()
 end
 
+function helper.getVitalRestoreEffect(vital)
+
+	local vitalEffects = {
+		["health"] = tes3.effect.restoreHealth,
+		["fatigue"] = tes3.effect.restoreFatigue,
+		["magicka"] = tes3.effect.restoreMagicka
+	}
+
+	return vitalEffects[helper.getVitalName(vital)]
+end
+
+function helper.getVitalDamageEffect(vital)
+
+	local vitalEffects = {
+		["health"] = tes3.effect.damageHealth,
+		["fatigue"] = tes3.effect.damageFatigue,
+		["magicka"] = tes3.effect.damageMagicka
+	}
+
+	return vitalEffects[helper.getVitalName(vital)]
+end
+
+function helper.getConsumables(objectType, effect)
+	local tab = {}
+	for _, obj in ipairs(tes3.dataHandler.nonDynamicData.objects) do
+		if obj.objectType == objectType then
+			if obj.effects then
+				if objectType == tes3.objectType.ingredient then
+					if obj.effects[1] == effect then
+						table.insert(tab, obj)
+					end
+				elseif objectType == tes3.objectType.alchemy then
+					if obj.effects[1].id == effect then
+						table.insert(tab, obj)
+					end
+				end
+			end
+		end
+	end
+	table.sort(tab, function(a, b) return a.value > b.value end)
+	return tab
+end
+
+function helper.getScrolls(effect)
+	local tab = {}
+	for _, obj in ipairs(tes3.dataHandler.nonDynamicData.objects) do
+		if obj.objectType == tes3.objectType.book and obj.type == tes3.bookType.scroll then
+			if obj.enchantment then
+				for _, e in ipairs(obj.enchantment.effects) do
+					if e.rangeType == tes3.effectRange.self and e.id == effect then
+						table.insert(tab, obj)
+					end
+				end
+			end
+		end
+	end
+	table.sort(tab, function(a, b) return a.value > b.value end)
+	return tab
+end
+
+function helper.roundFloat(n)
+	return math.floor(math.abs(n + 0.5))
+end
+
 function helper.resolvePriority(tableSize)
 	if tableSize == 1 then return tableSize end
 
-	local luck = tes3.mobilePlayer.luck.current ~= 0 and tes3.mobilePlayer.luck.current or 1
-	local luck_inverted = 101 - luck
+	local luck = tes3.mobilePlayer.luck.current
+	local clampedLuck = math.clamp(luck, 0, 100)
 
-	local range_min = math.floor(luck * 0.25) -- Adjust the scaling factor as needed
-	local range_max = math.floor(luck * 0.75) -- Adjust the scaling factor as needed
+	local minIndex = 1
+	local maxIndex = tableSize
 
-	local randomness = math.random(range_max - range_min + 1) + range_min - 0.5
+	-- Adjust the scaling factor as needed
+	local scalingFactor = 1 - clampedLuck / 100
 
-	local luck_normalised = luck + randomness
+	-- Determine whether to completely randomize the luck
+	local completelyRandom = math.random() <= 0.15 -- Adjust the chance as desired
 
-	return math.floor(math.remap(luck_normalised, luck - luck_inverted, luck + luck_inverted, tableSize, 1) + 0.5)
+	local randomOffset = 0
+	if completelyRandom then
+	  randomOffset = math.random(minIndex, maxIndex)
+	else
+	  -- Calculate the random offset with adjusted scaling factor
+	  randomOffset = math.random() * scalingFactor * (clampedLuck / 100) - scalingFactor * (clampedLuck / 200)
+	end
+
+	local index = math.floor(scalingFactor * (maxIndex - minIndex) + minIndex + randomOffset)
+
+	index = math.clamp(index, minIndex, maxIndex)
+
+	debug.log(luck)
+	debug.log(tableSize)
+	debug.log(index)
+
+	return index
 end
 
 
@@ -61,14 +143,15 @@ function helper.numbersClose(firstValue, secondValue)
 	return math.isclose(firstValue, secondValue, 0.01)
 end
 
+-- Get a vital name to use in data indexing
+function helper.getVitalName(vital)
 
--- We need to know which fortify effect might be at play. --
-function helper.getFortifyEffect(vital)
 	local vitalEffects = {
-		[tes3.mobilePlayer.health] = tes3.effect.fortifyHealth,
-		[tes3.mobilePlayer.fatigue] = tes3.effect.fortifyFatigue,
-		[tes3.mobilePlayer.magicka] = tes3.effect.fortifyMagicka
+		[tes3.mobilePlayer.health] = "health",
+		[tes3.mobilePlayer.fatigue] = "fatigue",
+		[tes3.mobilePlayer.magicka] = "magicka"
 	}
+
 	for v, e in pairs(vitalEffects) do
 		if (
 			(helper.numbersClose(vital.base, v.base))
@@ -84,6 +167,17 @@ function helper.getFortifyEffect(vital)
 			return e
 		end
 	end
+end
+
+
+-- We need to know which fortify effect might be at play. --
+function helper.getFortifyEffect(vital)
+	local vitalEffects = {
+		["health"] = tes3.effect.fortifyHealth,
+		["fatigue"] = tes3.effect.fortifyFatigue,
+		["magicka"] = tes3.effect.fortifyMagicka
+	}
+	return vitalEffects[helper.getVitalName(vital)]
 end
 
 -- Max stats are essentialy the base value + any fortify effects at a given time, so let's make sure we calculate from the actual max value available. --
