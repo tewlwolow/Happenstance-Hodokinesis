@@ -57,7 +57,6 @@ function conditions.playerVitalsLow(boon)
 	end
 
 	local priority = helper.resolvePriority(#dispatch[boon])
-	debug.log(tostring(priority))
 
 	return lowestRatio ~= nil, function() dispatch[boon][priority](lowVitals[lowestRatio]) end
 end

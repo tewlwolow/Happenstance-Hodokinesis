@@ -22,28 +22,28 @@ end
 function actions.damageVital(vital)
 	if not vital then return end
 
-	local minRange
-	local v = tes3.mobilePlayer.health
-	if (
-		(helper.numbersClose(vital.base, v.base))
-			and
-		(helper.numbersClose(vital.baseRaw, v.baseRaw))
-			and
-		(helper.numbersClose(vital.current, vital.current))
-			and
-		(helper.numbersClose(vital.currentRaw, vital.currentRaw))
-			and
-		(helper.numbersClose(vital.normalized, vital.normalized))
-	) then
-		minRange = 1
-	else
-		minRange = vital.current / 2
-	end
-
+	local minRange = vital.current / 2
 	local maxRange = vital.current
 	local deduction = math.random(minRange, maxRange)
-
-	vital.current = vital.current - deduction
+	debug.log(vital.current)
+	local health = tes3.mobilePlayer.health
+	if (
+		(helper.numbersClose(vital.base, health.base))
+			and
+		(helper.numbersClose(vital.baseRaw, health.baseRaw))
+			and
+		(helper.numbersClose(vital.current, health.current))
+			and
+		(helper.numbersClose(vital.currentRaw, health.currentRaw))
+			and
+		(helper.numbersClose(vital.normalized, health.normalized))
+	) then
+		debug.log("health")
+		vital.current = math.ceil(math.clamp(vital.current - deduction, 1, maxRange))
+	else
+		vital.current = math.ceil(vital.current - deduction)
+	end
+	debug.log(vital.current)
 
 	-- We need to make sure the visual changes are applied immediately. --
 	helper.updateVitalsUI()

@@ -75,11 +75,11 @@ function helper.getFortifyEffect(vital)
 				and
 			(helper.numbersClose(vital.baseRaw, v.baseRaw))
 				and
-			(helper.numbersClose(vital.current, vital.current))
+			(helper.numbersClose(vital.current, v.current))
 				and
-			(helper.numbersClose(vital.currentRaw, vital.currentRaw))
+			(helper.numbersClose(vital.currentRaw, v.currentRaw))
 				and
-			(helper.numbersClose(vital.normalized, vital.normalized))
+			(helper.numbersClose(vital.normalized, v.normalized))
 		) then
 			return e
 		end
