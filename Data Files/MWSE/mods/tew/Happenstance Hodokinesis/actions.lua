@@ -25,7 +25,6 @@ function actions.damageVital(vital)
 	local minRange = vital.current / 2
 	local maxRange = vital.current
 	local deduction = math.random(minRange, maxRange)
-	debug.log(vital.current)
 	local health = tes3.mobilePlayer.health
 	if (
 		(helper.numbersClose(vital.base, health.base))
@@ -38,12 +37,10 @@ function actions.damageVital(vital)
 			and
 		(helper.numbersClose(vital.normalized, health.normalized))
 	) then
-		debug.log("health")
 		vital.current = math.ceil(math.clamp(vital.current - deduction, 1, maxRange))
 	else
 		vital.current = math.ceil(vital.current - deduction)
 	end
-	debug.log(vital.current)
 
 	-- We need to make sure the visual changes are applied immediately. --
 	helper.updateVitalsUI()
