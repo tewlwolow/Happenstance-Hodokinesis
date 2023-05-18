@@ -12,11 +12,16 @@ local helper = require("tew.Happenstance Hodokinesis.helper")
 -- Determine if player needs healing for any 3 base vitals. --
 function conditions.playerVitalsLow(boon)
 	-- Action definition --
+	-- Order matters. Top = best/less annoying
 	local dispatch = {
 		[true] = {
-			actions.healVital
+			actions.healVital,
+			actions.addScrollRestore,
+			actions.addPotionRestore,
+			actions.addIngredientRestore
 		},
 		[false] = {
+			actions.addIngredientDamage,
 			actions.damageVital
 		}
 	}
