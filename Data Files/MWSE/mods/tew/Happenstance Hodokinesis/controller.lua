@@ -9,7 +9,7 @@ local helper = require("tew.Happenstance Hodokinesis.helper")
 
 function controller.roll()
 	-- This is a base chance for either a bonus or a malus to be applied, based on the player's Luck. --
-	local boon = helper.calcActionChance() > math.random()
+	local boon = helper.calcBoon()
 
 	-- This is a table to hold our applicable conditions. --
 	local currentConditions = {}
@@ -17,19 +17,19 @@ function controller.roll()
 	-- Let's run our condition checks and see if anything is worth doing. --
 	-- TODO: maybe some fallback?
 	for _, conditionCheck in pairs(conditions) do
-		local isActive, action, param = conditionCheck()
+		local isActive, action = conditionCheck(boon)
 		if isActive then
 			-- Write off our action and the param to act upon. --
-			currentConditions[action] = param
+			table.insert(currentConditions, action)
 		end
 	end
 
 	-- Roll a dice to get a randomised applicable action to take. --
-	local rolledAction = table.choice(table.keys(currentConditions))
+	local rolledAction = table.choice(currentConditions)
 
 	-- If we got a hit, i.e. there are some applicable conditions, let's run the action. --
 	if rolledAction then
-		rolledAction(currentConditions[rolledAction], boon)
+		rolledAction()
 	end
 end
 

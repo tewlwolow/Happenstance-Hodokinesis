@@ -6,7 +6,27 @@ local helper = {}
 -- We need to calculate a chance of good/bad effects to happen, based on the player's Luck --
 function helper.calcActionChance()
 	-- TODO: introduce diminishing returns based on data - how many times used today? If more than x, diminish chance.
-	return tes3.mobilePlayer.luck.current / 100
+	return (tes3.mobilePlayer.luck.current / 100) + 0.1
+end
+
+function helper.calcBoon()
+	return helper.calcActionChance() > math.random()
+end
+
+function helper.resolvePriority(tableSize)
+	if tableSize == 1 then return tableSize end
+
+	local luck = tes3.mobilePlayer.luck.current ~= 0 and tes3.mobilePlayer.luck.current or 1
+	local luck_inverted = 101 - luck
+
+	local range_min = math.floor(luck * 0.25) -- Adjust the scaling factor as needed
+	local range_max = math.floor(luck * 0.75) -- Adjust the scaling factor as needed
+
+	local randomness = math.random(range_max - range_min + 1) + range_min - 0.5
+
+	local luck_normalised = luck + randomness
+
+	return math.floor(math.remap(luck_normalised, luck - luck_inverted, luck + luck_inverted, tableSize, 1) + 0.5)
 end
 
 

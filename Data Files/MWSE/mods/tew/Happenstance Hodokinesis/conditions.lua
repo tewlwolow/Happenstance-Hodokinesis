@@ -6,12 +6,20 @@ local conditions = {}
 --
 local config = require("tew.Happenstance Hodokinesis.config")
 local actions = require("tew.Happenstance Hodokinesis.actions")
+local helper = require("tew.Happenstance Hodokinesis.helper")
 --
 
 -- Determine if player needs healing for any 3 base vitals. --
-function conditions.playerVitalsLow()
+function conditions.playerVitalsLow(boon)
 	-- Action definition --
-	local action = actions.healVital
+	local dispatch = {
+		[true] = {
+			actions.healVital
+		},
+		[false] = {
+			actions.damageVital
+		}
+	}
 
 	local statNames = {"health", "fatigue", "magicka"}
 
@@ -48,7 +56,10 @@ function conditions.playerVitalsLow()
 		lowestRatio = math.min(table.unpack(table.keys(lowVitals)))
 	end
 
-	return lowestRatio ~= nil, action, lowVitals[lowestRatio]
+	local priority = helper.resolvePriority(#dispatch[boon])
+	debug.log(tostring(priority))
+
+	return lowestRatio ~= nil, function() dispatch[boon][priority](lowVitals[lowestRatio]) end
 end
 
 
