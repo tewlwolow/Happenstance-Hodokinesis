@@ -73,9 +73,11 @@ function conditions.playerLookingAtLock(boon)
 	local dispatch = {
 		[true] = {
 			actions.unlock,
+			actions.addScrollOpen,
 			actions.lockLess
 		},
 		[false] = {
+			actions.addScrollLock,
 			actions.lockMore
 		}
 	}

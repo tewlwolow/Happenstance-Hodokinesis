@@ -56,14 +56,20 @@ function helper.getConsumables(objectType, effect)
 	return tab
 end
 
-function helper.getScrolls(effect)
+function helper.getScrolls(effect, effectRange)
 	local tab = {}
 	for _, obj in ipairs(tes3.dataHandler.nonDynamicData.objects) do
 		if obj.objectType == tes3.objectType.book and obj.type == tes3.bookType.scroll then
 			if obj.enchantment then
 				for _, e in ipairs(obj.enchantment.effects) do
-					if e.rangeType == tes3.effectRange.self and e.id == effect then
-						table.insert(tab, obj)
+					if e.id == effect then
+						if effectRange then
+							if e.rangeType == effectRange then
+								table.insert(tab, obj)
+							end
+						else
+							table.insert(tab, obj)
+						end
 					end
 				end
 			end

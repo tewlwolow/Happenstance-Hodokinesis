@@ -72,7 +72,7 @@ function actions.addIngredientDamage(vital)
 end
 
 function actions.addScrollRestore(vital)
-	local scrollTable = helper.getScrolls(helper.getVitalRestoreEffect(vital))
+	local scrollTable = helper.getScrolls(helper.getVitalRestoreEffect(vital), tes3.effectRange.self)
 	tes3.addItem({
 		reference = tes3.player,
 		item = scrollTable[helper.resolvePriority(#scrollTable)]
@@ -87,20 +87,32 @@ function actions.lockLess(ref)
 	local lockNode = ref.lockNode
 	if lockNode then
 		local levelOld = lockNode.level
-		debug.log(levelOld)
 		local levelNew = math.clamp(helper.roundFloat(helper.resolvePriority(100)), 1, levelOld)
-		debug.log(levelNew)
 		lockNode.level = levelNew
 	end
+end
+
+function actions.addScrollOpen(ref)
+	local scrollTable = helper.getScrolls(tes3.effect.open, nil)
+	tes3.addItem({
+		reference = tes3.player,
+		item = scrollTable[helper.resolvePriority(#scrollTable)]
+	})
+end
+
+function actions.addScrollLock(ref)
+	local scrollTable = helper.getScrolls(tes3.effect.lock, nil)
+	tes3.addItem({
+		reference = tes3.player,
+		item = scrollTable[helper.resolvePriority(#scrollTable)]
+	})
 end
 
 function actions.lockMore(ref)
 	local lockNode = ref.lockNode
 	if lockNode then
 		local levelOld = lockNode.level
-		debug.log(levelOld)
 		local levelNew = math.clamp(helper.roundFloat(helper.resolvePriority(100)), levelOld, 100)
-		debug.log(levelNew)
 		lockNode.level = levelNew
 	end
 end
