@@ -104,10 +104,6 @@ function helper.resolvePriority(tableSize)
 
 	index = math.clamp(index, minIndex, maxIndex)
 
-	debug.log(luck)
-	debug.log(tableSize)
-	debug.log(index)
-
 	return index
 end
 
