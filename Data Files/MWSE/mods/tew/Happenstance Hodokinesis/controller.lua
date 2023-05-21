@@ -29,7 +29,15 @@ function controller.roll()
 
 	-- If we got a hit, i.e. there are some applicable conditions, let's run the action. --
 	if rolledAction then
-		rolledAction()
+		local rollSound = tes3.getSound("tew_s_hodo_alea")
+		rollSound:play()
+		timer.start{
+			type=timer.real,
+			iterations = 1,
+			duration = 3,
+			persist = false,
+			callback = rolledAction
+		}
 	end
 end
 
