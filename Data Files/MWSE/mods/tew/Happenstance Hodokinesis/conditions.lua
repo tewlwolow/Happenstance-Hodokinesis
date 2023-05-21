@@ -66,6 +66,27 @@ function conditions.playerVitalsLow(boon)
 	return lowestRatio ~= nil, function() dispatch[boon][priority](lowVitals[lowestRatio]) end
 end
 
+-- Determine if player is looking at a locked object. --
+function conditions.playerLookingAtLock(boon)
+	-- Action definition --
+	-- Order matters. Top = best/less annoying
+	local dispatch = {
+		[true] = {
+			actions.unlock,
+			actions.lockLess
+		},
+		[false] = {
+			actions.lockMore
+		}
+	}
+
+	local result = tes3.getPlayerTarget()
+
+	local priority = helper.resolvePriority(#dispatch[boon])
+
+	return tes3.getLocked{reference = result}, function() dispatch[boon][priority](result) end
+end
+
 
 --
 return conditions

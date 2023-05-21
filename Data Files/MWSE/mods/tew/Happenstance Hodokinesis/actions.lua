@@ -79,5 +79,31 @@ function actions.addScrollRestore(vital)
 	})
 end
 
+function actions.unlock(ref)
+	tes3.unlock{reference = ref}
+end
+
+function actions.lockLess(ref)
+	local lockNode = ref.lockNode
+	if lockNode then
+		local levelOld = lockNode.level
+		debug.log(levelOld)
+		local levelNew = math.clamp(helper.roundFloat(helper.resolvePriority(100)), 1, levelOld)
+		debug.log(levelNew)
+		lockNode.level = levelNew
+	end
+end
+
+function actions.lockMore(ref)
+	local lockNode = ref.lockNode
+	if lockNode then
+		local levelOld = lockNode.level
+		debug.log(levelOld)
+		local levelNew = math.clamp(helper.roundFloat(helper.resolvePriority(100)), levelOld, 100)
+		debug.log(levelNew)
+		lockNode.level = levelNew
+	end
+end
+
 --
 return actions
