@@ -79,19 +79,6 @@ function actions.addScrollRestore(vital)
 	})
 end
 
-function actions.unlock(ref)
-	tes3.unlock{reference = ref}
-end
-
-function actions.lockLess(ref)
-	local lockNode = ref.lockNode
-	if lockNode then
-		local levelOld = lockNode.level
-		local levelNew = math.clamp(helper.roundFloat(helper.resolvePriority(100)), 1, levelOld)
-		lockNode.level = levelNew
-	end
-end
-
 function actions.addScrollOpen(ref)
 	local scrollTable = helper.getScrolls(tes3.effect.open, nil)
 	tes3.addItem({
@@ -108,12 +95,40 @@ function actions.addScrollLock(ref)
 	})
 end
 
+function actions.unlock(ref)
+	local magicSourceInstance = tes3.applyMagicSource({
+		name = "Unlock",
+		reference = ref,
+		castChance = 100,
+		bypassResistances = true,
+		effects = {
+		{ id = tes3.effect.open, duration = 1, min = 0, max = 0 },
+		}
+	})
+	magicSourceInstance:playVisualEffect{
+		effectIndex = 0,
+		position = ref.position,
+		visual = "VFX_AlterationHit"
+	}
+	tes3.unlock{reference = ref}
+end
+
+function actions.lockLess(ref)
+	local lockNode = ref.lockNode
+	if lockNode then
+		local levelOld = lockNode.level
+		local levelNew = math.clamp(helper.roundFloat(helper.resolvePriority(100)), 1, levelOld)
+		lockNode.level = levelNew
+	end
+end
+
 function actions.lockMore(ref)
 	local lockNode = ref.lockNode
 	if lockNode then
 		local levelOld = lockNode.level
 		local levelNew = math.clamp(helper.roundFloat(helper.resolvePriority(100)), levelOld, 100)
 		lockNode.level = levelNew
+
 	end
 end
 
