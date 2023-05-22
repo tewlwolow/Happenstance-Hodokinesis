@@ -1,3 +1,4 @@
 return {
-    vitalsThreshold = 75
+    showInfoMessages = true,
+    vitalsThreshold = 75,
 }

@@ -3,6 +3,8 @@
 
 local helper = {}
 
+local config = require("tew.Happenstance Hodokinesis.config")
+
 -- We need to calculate a chance of good/bad effects to happen, based on the player's Luck --
 function helper.calcActionChance()
 	-- TODO: introduce diminishing returns based on data - how many times used today? If more than x, diminish chance.
@@ -215,6 +217,14 @@ function helper.playVisual(ref, vfx)
 		position = ref.position,
 		visual = vfx
 	}
+end
+
+function helper.showMessage(message)
+	if config.showInfoMessages then
+		tes3.messageBox{
+			message = message
+		}
+	end
 end
 
 --

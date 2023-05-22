@@ -4,6 +4,7 @@ local actions = {}
 
 local helper = require("tew.Happenstance Hodokinesis.helper")
 local data = require("tew.Happenstance Hodokinesis.data")
+local messages = require("tew.Happenstance Hodokinesis.messages")
 
 
 function actions.healVital(vital)
@@ -17,6 +18,7 @@ function actions.healVital(vital)
     vital.current = math.clamp(vital.current, vital.current, maxVital)
 
 	helper.updateVitalsUI()
+	helper.showMessage(messages.healedVital)
 end
 
 
@@ -43,8 +45,8 @@ function actions.damageVital(vital)
     	vital.current = math.clamp(vital.current - helper.roundFloat(decrement), vital.current - vital.current*2, vital.current)
 	end
 
-
 	helper.updateVitalsUI()
+	helper.showMessage(messages.damagedVital)
 end
 
 
@@ -54,6 +56,7 @@ function actions.addPotionRestore(vital)
 		reference = tes3.player,
 		item = potionTable[helper.resolvePriority(#potionTable)]
 	})
+	helper.showMessage(messages.potion)
 end
 
 function actions.addPotionFeather(ref)
@@ -62,6 +65,7 @@ function actions.addPotionFeather(ref)
 		reference = tes3.player,
 		item = potionTable[helper.resolvePriority(#potionTable)]
 	})
+	helper.showMessage(messages.potion)
 end
 
 function actions.addPotionBurden(ref)
@@ -70,6 +74,7 @@ function actions.addPotionBurden(ref)
 		reference = tes3.player,
 		item = potionTable[helper.resolvePriority(#potionTable)]
 	})
+	helper.showMessage(messages.potion)
 end
 
 function actions.addIngredientRestore(vital)
@@ -78,6 +83,7 @@ function actions.addIngredientRestore(vital)
 		reference = tes3.player,
 		item = ingredientTable[helper.resolvePriority(#ingredientTable)]
 	})
+	helper.showMessage(messages.ingredient)
 end
 
 function actions.addIngredientDamage(vital)
@@ -86,6 +92,7 @@ function actions.addIngredientDamage(vital)
 		reference = tes3.player,
 		item = ingredientTable[helper.resolvePriority(#ingredientTable)]
 	})
+	helper.showMessage(messages.ingredient)
 end
 
 function actions.addIngredientFeather(vital)
@@ -94,6 +101,7 @@ function actions.addIngredientFeather(vital)
 		reference = tes3.player,
 		item = ingredientTable[helper.resolvePriority(#ingredientTable)]
 	})
+	helper.showMessage(messages.ingredient)
 end
 
 function actions.addIngredientBurden(vital)
@@ -102,6 +110,7 @@ function actions.addIngredientBurden(vital)
 		reference = tes3.player,
 		item = ingredientTable[helper.resolvePriority(#ingredientTable)]
 	})
+	helper.showMessage(messages.ingredient)
 end
 
 function actions.addScrollRestore(vital)
@@ -110,6 +119,7 @@ function actions.addScrollRestore(vital)
 		reference = tes3.player,
 		item = scrollTable[helper.resolvePriority(#scrollTable)]
 	})
+	helper.showMessage(messages.scroll)
 end
 
 function actions.addScrollOpen(ref)
@@ -118,6 +128,7 @@ function actions.addScrollOpen(ref)
 		reference = tes3.player,
 		item = scrollTable[helper.resolvePriority(#scrollTable)]
 	})
+	helper.showMessage(messages.scroll)
 end
 
 function actions.addScrollLock(ref)
@@ -126,6 +137,7 @@ function actions.addScrollLock(ref)
 		reference = tes3.player,
 		item = scrollTable[helper.resolvePriority(#scrollTable)]
 	})
+	helper.showMessage(messages.scroll)
 end
 
 function actions.addScrollFeather(ref)
@@ -134,6 +146,7 @@ function actions.addScrollFeather(ref)
 		reference = tes3.player,
 		item = scrollTable[helper.resolvePriority(#scrollTable)]
 	})
+	helper.showMessage(messages.scroll)
 end
 
 function actions.addScrollBurden(ref)
@@ -142,11 +155,13 @@ function actions.addScrollBurden(ref)
 		reference = tes3.player,
 		item = scrollTable[helper.resolvePriority(#scrollTable)]
 	})
+	helper.showMessage(messages.scroll)
 end
 
 function actions.unlock(ref)
 	helper.playVisual(ref, data.vfx.alteration)
 	tes3.unlock{reference = ref}
+	helper.showMessage(messages.unlocked)
 end
 
 function actions.lockLess(ref)
@@ -157,6 +172,7 @@ function actions.lockLess(ref)
 		local levelNew = math.clamp(helper.roundFloat(helper.resolvePriority(100)), 1, levelOld)
 		lockNode.level = levelNew
 	end
+	helper.showMessage(messages.lockedLess)
 end
 
 function actions.lockMore(ref)
@@ -166,8 +182,8 @@ function actions.lockMore(ref)
 		local levelOld = lockNode.level
 		local levelNew = math.clamp(helper.roundFloat(helper.resolvePriority(100)), levelOld, 100)
 		lockNode.level = levelNew
-
 	end
+	helper.showMessage(messages.lockedMore)
 end
 
 function actions.feather()
@@ -190,6 +206,7 @@ function actions.feather()
 		position = tes3.player.position,
 		visual = data.vfx.alteration
 	}
+	helper.showMessage(messages.spellFeather)
 end
 
 function actions.burden()
@@ -210,6 +227,7 @@ function actions.burden()
 		position = tes3.player.position,
 		visual = data.vfx.alteration
 	}
+	helper.showMessage(messages.spellBurden)
 end
 
 --
