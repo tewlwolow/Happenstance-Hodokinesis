@@ -17,6 +17,7 @@ function actions.healVital(vital)
     vital.current = helper.roundFloat(vital.current + increment)
     vital.current = math.clamp(vital.current, vital.current, maxVital)
 
+	helper.playVisual(tes3.player, data.vfx.restoration)
 	helper.updateVitalsUI()
 	helper.showMessage(messages.healedVital)
 end
@@ -44,6 +45,7 @@ function actions.damageVital(vital)
 	else
     	vital.current = math.clamp(vital.current - helper.roundFloat(decrement), vital.current - vital.current*2, vital.current)
 	end
+	helper.playVisual(tes3.player, data.vfx.destruction)
 
 	helper.updateVitalsUI()
 	helper.showMessage(messages.damagedVital)
