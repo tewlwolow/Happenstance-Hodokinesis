@@ -3,6 +3,7 @@
 local controller = {}
 
 --
+local constants = require("tew.Happenstance Hodokinesis.constants")
 local conditions = require("tew.Happenstance Hodokinesis.conditions")
 local helper = require("tew.Happenstance Hodokinesis.helper")
 local data = require("tew.Happenstance Hodokinesis.data")
@@ -30,8 +31,8 @@ function controller.roll()
 
 	-- If we got a hit, i.e. there are some applicable conditions, let's run the action. --
 	if rolledAction then
-		local rollSound = tes3.getSound("tew_s_hodo_alea")
-		local castSound = tes3.getSound("tew_s_hodo_cast")
+		local rollSound = tes3.getSound(constants.SOUND_ROLL)
+		local castSound = tes3.getSound(constants.SOUND_CAST)
 		rollSound:play()
 		timer.start{
 			type=timer.real,
