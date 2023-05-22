@@ -25,6 +25,7 @@ function conditions.playerVitalsLow(boon)
 			actions.damageVital
 		}
 	}
+	local priority = helper.resolvePriority(#dispatch[boon])
 
 	local statNames = {"health", "fatigue", "magicka"}
 
@@ -61,10 +62,10 @@ function conditions.playerVitalsLow(boon)
 		lowestRatio = math.min(table.unpack(table.keys(lowVitals)))
 	end
 
-	local priority = helper.resolvePriority(#dispatch[boon])
-
 	return lowestRatio ~= nil, function() dispatch[boon][priority](lowVitals[lowestRatio]) end
 end
+
+---
 
 -- Determine if player is looking at a locked object. --
 function conditions.playerLookingAtLock(boon)
@@ -81,12 +82,48 @@ function conditions.playerLookingAtLock(boon)
 			actions.lockMore
 		}
 	}
+	local priority = helper.resolvePriority(#dispatch[boon])
 
 	local result = tes3.getPlayerTarget()
 
+	return tes3.getLocked{reference = result}, function() dispatch[boon][priority](result) end
+end
+
+---
+
+
+-- Determine if player is looking at a locked object. --
+function conditions.playerEncumbered(boon)
+	-- Action definition --
+	-- Order matters. Top = best/less annoying
+	local dispatch = {
+		[true] = {
+			actions.feather,
+			actions.addScrollFeather,
+			actions.addPotionFeather,
+			actions.addIngredientFeather
+		},
+		[false] = {
+			actions.addIngredientBurden,
+			actions.addPotionBurden,
+			actions.addScrollBurden,
+			actions.burden
+		}
+	}
+
 	local priority = helper.resolvePriority(#dispatch[boon])
 
-	return tes3.getLocked{reference = result}, function() dispatch[boon][priority](result) end
+	local mp = tes3.mobilePlayer
+
+	local playerEncumbered = false
+	if mp then
+		local encumbrance = mp.encumbrance
+		if encumbrance.normalized >= 1.0 then
+			playerEncumbered = true
+		end
+	end
+
+	return playerEncumbered, dispatch[boon][priority]
 end
 
 

@@ -3,6 +3,7 @@
 local actions = {}
 
 local helper = require("tew.Happenstance Hodokinesis.helper")
+local data = require("tew.Happenstance Hodokinesis.data")
 
 
 function actions.healVital(vital)
@@ -55,6 +56,22 @@ function actions.addPotionRestore(vital)
 	})
 end
 
+function actions.addPotionFeather(ref)
+	local potionTable = helper.getConsumables(tes3.objectType.alchemy, tes3.effect.feather)
+	tes3.addItem({
+		reference = tes3.player,
+		item = potionTable[helper.resolvePriority(#potionTable)]
+	})
+end
+
+function actions.addPotionBurden(ref)
+	local potionTable = helper.getConsumables(tes3.objectType.alchemy, tes3.effect.burden)
+	tes3.addItem({
+		reference = tes3.player,
+		item = potionTable[helper.resolvePriority(#potionTable)]
+	})
+end
+
 function actions.addIngredientRestore(vital)
 	local ingredientTable = helper.getConsumables(tes3.objectType.ingredient, helper.getVitalRestoreEffect(vital))
 	tes3.addItem({
@@ -65,6 +82,22 @@ end
 
 function actions.addIngredientDamage(vital)
 	local ingredientTable = helper.getConsumables(tes3.objectType.ingredient, helper.getVitalDamageEffect(vital))
+	tes3.addItem({
+		reference = tes3.player,
+		item = ingredientTable[helper.resolvePriority(#ingredientTable)]
+	})
+end
+
+function actions.addIngredientFeather(vital)
+	local ingredientTable = helper.getConsumables(tes3.objectType.ingredient, tes3.effect.feather)
+	tes3.addItem({
+		reference = tes3.player,
+		item = ingredientTable[helper.resolvePriority(#ingredientTable)]
+	})
+end
+
+function actions.addIngredientBurden(vital)
+	local ingredientTable = helper.getConsumables(tes3.objectType.ingredient, tes3.effect.burden)
 	tes3.addItem({
 		reference = tes3.player,
 		item = ingredientTable[helper.resolvePriority(#ingredientTable)]
@@ -95,25 +128,29 @@ function actions.addScrollLock(ref)
 	})
 end
 
-function actions.unlock(ref)
-	local magicSourceInstance = tes3.applyMagicSource({
-		name = "Unlock",
-		reference = ref,
-		castChance = 100,
-		bypassResistances = true,
-		effects = {
-		{ id = tes3.effect.open, duration = 1, min = 0, max = 0 },
-		}
+function actions.addScrollFeather(ref)
+	local scrollTable = helper.getScrolls(tes3.effect.feather, tes3.effectRange.self)
+	tes3.addItem({
+		reference = tes3.player,
+		item = scrollTable[helper.resolvePriority(#scrollTable)]
 	})
-	magicSourceInstance:playVisualEffect{
-		effectIndex = 0,
-		position = ref.position,
-		visual = "VFX_AlterationHit"
-	}
+end
+
+function actions.addScrollBurden(ref)
+	local scrollTable = helper.getScrolls(tes3.effect.burden, tes3.effectRange.self)
+	tes3.addItem({
+		reference = tes3.player,
+		item = scrollTable[helper.resolvePriority(#scrollTable)]
+	})
+end
+
+function actions.unlock(ref)
+	helper.playVisual(ref, data.vfx.alteration)
 	tes3.unlock{reference = ref}
 end
 
 function actions.lockLess(ref)
+	helper.playVisual(ref, data.vfx.alteration)
 	local lockNode = ref.lockNode
 	if lockNode then
 		local levelOld = lockNode.level
@@ -123,6 +160,7 @@ function actions.lockLess(ref)
 end
 
 function actions.lockMore(ref)
+	helper.playVisual(ref, data.vfx.alteration)
 	local lockNode = ref.lockNode
 	if lockNode then
 		local levelOld = lockNode.level
@@ -130,6 +168,48 @@ function actions.lockMore(ref)
 		lockNode.level = levelNew
 
 	end
+end
+
+function actions.feather()
+	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 240, 5))
+	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
+	debug.log(duration)
+	debug.log(power)
+
+	local magicSourceInstance = tes3.applyMagicSource({
+		name = "Pteroma",
+		reference = tes3.player,
+		castChance = 100,
+		bypassResistances = true,
+		effects = {
+		{ id = tes3.effect.feather, duration = duration, min = power, max = power },
+		}
+	})
+	magicSourceInstance:playVisualEffect{
+		effectIndex = 0,
+		position = tes3.player.position,
+		visual = data.vfx.alteration
+	}
+end
+
+function actions.burden()
+	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 240, 5))
+	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
+
+	local magicSourceInstance = tes3.applyMagicSource({
+		name = "Barophoria",
+		reference = tes3.player,
+		castChance = 100,
+		bypassResistances = true,
+		effects = {
+		{ id = tes3.effect.burden, duration = duration, min = power, max = power },
+		}
+	})
+	magicSourceInstance:playVisualEffect{
+		effectIndex = 0,
+		position = tes3.player.position,
+		visual = data.vfx.alteration
+	}
 end
 
 --
