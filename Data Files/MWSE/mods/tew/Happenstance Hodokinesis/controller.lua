@@ -31,6 +31,7 @@ function controller.roll()
 	-- If we got a hit, i.e. there are some applicable conditions, let's run the action. --
 	if rolledAction then
 		local rollSound = tes3.getSound("tew_s_hodo_alea")
+		local castSound = tes3.getSound("tew_s_hodo_cast")
 		rollSound:play()
 		timer.start{
 			type=timer.real,
@@ -39,6 +40,7 @@ function controller.roll()
 			persist = false,
 			callback = function()
 				helper.playVisual(tes3.player, data.vfx.mysticism)
+				castSound:play()
 				rolledAction()
 			end
 		}
