@@ -232,5 +232,25 @@ function actions.burden()
 	helper.showMessage(messages.spellBurden)
 end
 
+function actions.bountyLess()
+	local mp = tes3.mobilePlayer
+	local bounty = mp.bounty
+	local percentage = math.clamp(math.remap(helper.resolvePriority(100), 1, 100, 100, 1) / 100, 0.0, 1.0)
+	local newBounty = (bounty) - (bounty * percentage)
+	debug.log(newBounty)
+	mp.bounty = newBounty
+	helper.showMessage(messages.bountyLess)
+end
+
+function actions.bountyMore()
+	local mp = tes3.mobilePlayer
+	local bounty = mp.bounty
+	local percentage = math.clamp(helper.resolvePriority(100) / 100, 0.0, 1.0)
+	local newBounty = (bounty) + (bounty * percentage)
+	debug.log(newBounty)
+	mp.bounty = newBounty
+	helper.showMessage(messages.bountyMore)
+end
+
 --
 return actions

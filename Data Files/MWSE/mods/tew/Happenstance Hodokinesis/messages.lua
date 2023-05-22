@@ -14,4 +14,7 @@ messages.unlocked = "The lock gives in and dissipates."
 messages.lockedLess = "The lock's defenses falter."
 messages.lockedMore = "The lock's resistance intensifies."
 
+messages.bountyMore = "Your reputation as a troublemaker spreads."
+messages.bountyLess = "The weight of your transgressions lessens."
+
 return messages

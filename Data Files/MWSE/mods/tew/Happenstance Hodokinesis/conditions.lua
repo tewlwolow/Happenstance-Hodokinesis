@@ -92,7 +92,7 @@ end
 ---
 
 
--- Determine if player is looking at a locked object. --
+-- Determine if player is encumbered. --
 function conditions.playerEncumbered(boon)
 	-- Action definition --
 	-- Order matters. Top = best/less annoying
@@ -124,6 +124,31 @@ function conditions.playerEncumbered(boon)
 	end
 
 	return playerEncumbered, dispatch[boon][priority]
+end
+
+---
+
+-- Determine if player has a bounty on their head. --
+function conditions.playerWanted(boon)
+	-- Action definition --
+	-- Order matters. Top = best/less annoying
+	local dispatch = {
+		[true] = {
+			actions.bountyLess
+		},
+		[false] = {
+			actions.bountyMore
+		}
+	}
+	-- TODO: Detect if player in TG, teleport to nearest bounty handler
+
+	local priority = helper.resolvePriority(#dispatch[boon])
+
+	local mp = tes3.mobilePlayer
+
+	local bounty = mp.bounty
+
+	return bounty ~= 0, dispatch[boon][priority]
 end
 
 
