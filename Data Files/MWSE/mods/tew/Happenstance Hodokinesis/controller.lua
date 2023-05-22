@@ -36,7 +36,7 @@ function controller.roll()
 		timer.start{
 			type=timer.real,
 			iterations = 1,
-			duration = 3,
+			duration = 2.3,
 			persist = false,
 			callback = function()
 				helper.playVisual(tes3.player, data.vfx.mysticism)
