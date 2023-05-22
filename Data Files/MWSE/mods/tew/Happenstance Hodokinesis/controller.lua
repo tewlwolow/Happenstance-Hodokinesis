@@ -5,6 +5,7 @@ local controller = {}
 --
 local conditions = require("tew.Happenstance Hodokinesis.conditions")
 local helper = require("tew.Happenstance Hodokinesis.helper")
+local data = require("tew.Happenstance Hodokinesis.data")
 --
 
 function controller.roll()
@@ -36,7 +37,10 @@ function controller.roll()
 			iterations = 1,
 			duration = 3,
 			persist = false,
-			callback = rolledAction
+			callback = function()
+				helper.playVisual(tes3.player, data.vfx.mysticism)
+				rolledAction()
+			end
 		}
 	end
 end

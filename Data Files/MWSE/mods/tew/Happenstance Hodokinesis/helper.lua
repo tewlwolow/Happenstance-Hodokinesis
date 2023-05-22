@@ -200,5 +200,22 @@ function helper.getMaxVital(vital)
 	return (vital.base + fortifyBonus)
 end
 
+function helper.playVisual(ref, vfx)
+	local magicSourceInstance = tes3.applyMagicSource({
+		name = "tew_alea_vfx",
+		reference = ref,
+		castChance = 100,
+		bypassResistances = true,
+		effects = {
+		{ id = tes3.effect.dispel, duration = 1, min = 0, max = 0 },
+		}
+	})
+	magicSourceInstance:playVisualEffect{
+		effectIndex = 0,
+		position = ref.position,
+		visual = vfx
+	}
+end
+
 --
 return helper
