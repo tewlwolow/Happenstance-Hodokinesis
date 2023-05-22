@@ -212,8 +212,8 @@ function actions.feather()
 end
 
 function actions.burden()
-	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 240, 5))
-	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
+	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 5, 240))
+	local power =  helper.resolvePriority(100)
 
 	local magicSourceInstance = tes3.applyMagicSource({
 		name = "Barophoria",
