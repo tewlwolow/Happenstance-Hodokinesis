@@ -235,7 +235,7 @@ function conditions.playerBlighted(boon)
 	return mp.hasBlightDisease, dispatch[boon][priority]
 end
 
--- Determine if player is blighted. --
+-- Determine if player is poisoned. --
 function conditions.playerPoisoned(boon)
 	-- Action definition --
 	-- Order matters. Top = best/less annoying
