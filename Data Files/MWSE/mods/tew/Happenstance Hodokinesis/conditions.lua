@@ -294,5 +294,44 @@ function conditions.playerUnderwater(boon)
 end
 
 
+-- Determine if player is in combat. --
+function conditions.playerInCombat(boon)
+	-- Action definition --
+	-- Order matters. Top = best/less annoying
+	local dispatch = {
+		[true] = {
+			-- actions.calmFoes,
+			-- actions.sanctuary,
+			-- actions.chameleon,
+			-- actions.invisibility
+		},
+		[false] = {
+			function() actions.damageVital(tes3.mobilePlayer.fatigue) end,
+			function() actions.damageVital(tes3.mobilePlayer.magicka) end,
+			function() actions.damageVital(tes3.mobilePlayer.health) end
+		}
+	}
+
+	local mp = tes3.mobilePlayer
+
+	for _, faction in pairs(tes3.dataHandler.nonDynamicData.factions) do
+		if (faction.name == "Temple") and (faction.playerJoined) and not (faction.playerExpelled) then
+			table.insert(dispatch[true], 4, actions.templeTeleport)
+		end
+		if (faction.name == "Imperial Cult") and (faction.playerJoined) and not (faction.playerExpelled) then
+			table.insert(dispatch[true], 4, actions.cultTeleport)
+		end
+	end
+
+	if mp.cell.isInterior then
+		table.insert(dispatch[true], 1, actions.teleportOutside)
+	end
+
+	local priority = helper.resolvePriority(#dispatch[boon])
+
+	return mp.inCombat, dispatch[boon][priority]
+end
+
+
 --
 return conditions

@@ -233,5 +233,15 @@ function helper.getRandomNPCPositionFromTable(tab)
 	end
 end
 
+function helper.getExteriorDoor(cell)
+	for door in cell:iterateReferences(tes3.objectType.door) do
+		if door.destination then
+			if (door.destination.cell.isOrBehavesAsExterior) then
+				return door
+			end
+		end
+	end
+end
+
 --
 return helper

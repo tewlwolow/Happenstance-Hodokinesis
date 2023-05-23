@@ -32,4 +32,6 @@ messages.poisonCured = "The magickal aura surrounding you acts as a potent antid
 
 messages.underwaterBoon = "The aquatic realm becomes your domain."
 
+messages.teleportOutside = "You find yourself whisked away from the chaos of battle."
+
 return messages

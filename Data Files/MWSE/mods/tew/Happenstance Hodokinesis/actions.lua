@@ -511,5 +511,13 @@ function actions.underwaterBoon()
 	helper.showMessage(messages.underwaterBoon)
 end
 
+function actions.teleportOutside()
+	local door = helper.getExteriorDoor(tes3.mobilePlayer.cell)
+	if door then
+		tes3.player:activate(door)
+		helper.showMessage(messages.teleportOutside)
+	end
+end
+
 --
 return actions
