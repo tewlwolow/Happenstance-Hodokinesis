@@ -40,7 +40,12 @@ function controller.roll()
 			duration = 2.3,
 			persist = false,
 			callback = function()
-				helper.playVisual(tes3.player, data.vfx.mysticism)
+				helper.playVisual(
+					"Happenstance Hodokinesis",
+					{ id = tes3.effect.dispel, duration = 1, min = 0, max = 0 },
+					tes3.player,
+					data.vfx.mysticism
+				)
 				castSound:play()
 				rolledAction()
 			end

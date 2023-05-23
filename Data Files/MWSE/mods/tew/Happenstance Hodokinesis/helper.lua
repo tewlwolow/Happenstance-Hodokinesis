@@ -202,14 +202,14 @@ function helper.getMaxVital(vital)
 	return (vital.base + fortifyBonus)
 end
 
-function helper.playVisual(ref, vfx)
+function helper.playVisual(name, effects, ref, vfx)
 	local magicSourceInstance = tes3.applyMagicSource({
-		name = "tew_alea_vfx",
+		name = name,
 		reference = ref,
 		castChance = 100,
 		bypassResistances = true,
 		effects = {
-		{ id = tes3.effect.dispel, duration = 1, min = 0, max = 0 },
+		effects,
 		}
 	})
 	magicSourceInstance:playVisualEffect{
@@ -230,7 +230,6 @@ end
 function helper.getRandomNPCPositionFromTable(tab)
 	local mp = tes3.mobilePlayer
 	if mp then
-		local playerPosition = mp.position:copy()
 		local npc = tes3.getReference(table.choice(tab))
 		return npc.position:copy(), npc.cell
 	end
