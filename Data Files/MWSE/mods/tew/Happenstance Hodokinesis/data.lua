@@ -17,4 +17,27 @@ data.bountyNPCs = {
 	"tongue_toad"
 }
 
+data.blights = {
+	"ash woe blight",
+	"black-heart blight",
+	"chanthrax blight"
+}
+
+data.diseases = {
+	"ataxia",
+	"brown rot",
+	"chills",
+	"collywobbles",
+	"dampworm",
+	"droops",
+	"greenspore",
+	"helljoint",
+	"rattles",
+	"rockjoint",
+	"rust chancre",
+	"swamp fever",
+	"witbane",
+	"yellow tick"
+}
+
 return data
