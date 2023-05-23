@@ -61,7 +61,7 @@ function actions.addPotionRestore(vital)
 	helper.showMessage(messages.potion)
 end
 
-function actions.addPotionFeather(ref)
+function actions.addPotionFeather()
 	local potionTable = helper.getConsumables(tes3.objectType.alchemy, tes3.effect.feather)
 	tes3.addItem({
 		reference = tes3.player,
@@ -70,8 +70,26 @@ function actions.addPotionFeather(ref)
 	helper.showMessage(messages.potion)
 end
 
-function actions.addPotionBurden(ref)
+function actions.addPotionBurden()
 	local potionTable = helper.getConsumables(tes3.objectType.alchemy, tes3.effect.burden)
+	tes3.addItem({
+		reference = tes3.player,
+		item = potionTable[helper.resolvePriority(#potionTable)]
+	})
+	helper.showMessage(messages.potion)
+end
+
+function actions.addPotionDisease()
+	local potionTable = helper.getConsumables(tes3.objectType.alchemy, tes3.effect.cureCommonDisease)
+	tes3.addItem({
+		reference = tes3.player,
+		item = potionTable[helper.resolvePriority(#potionTable)]
+	})
+	helper.showMessage(messages.potion)
+end
+
+function actions.addPotionBlight()
+	local potionTable = helper.getConsumables(tes3.objectType.alchemy, tes3.effect.cureBlightDisease)
 	tes3.addItem({
 		reference = tes3.player,
 		item = potionTable[helper.resolvePriority(#potionTable)]
@@ -97,7 +115,7 @@ function actions.addIngredientDamage(vital)
 	helper.showMessage(messages.ingredient)
 end
 
-function actions.addIngredientFeather(vital)
+function actions.addIngredientFeather()
 	local ingredientTable = helper.getConsumables(tes3.objectType.ingredient, tes3.effect.feather)
 	tes3.addItem({
 		reference = tes3.player,
@@ -106,8 +124,26 @@ function actions.addIngredientFeather(vital)
 	helper.showMessage(messages.ingredient)
 end
 
-function actions.addIngredientBurden(vital)
+function actions.addIngredientBurden()
 	local ingredientTable = helper.getConsumables(tes3.objectType.ingredient, tes3.effect.burden)
+	tes3.addItem({
+		reference = tes3.player,
+		item = ingredientTable[helper.resolvePriority(#ingredientTable)]
+	})
+	helper.showMessage(messages.ingredient)
+end
+
+function actions.addIngredientDisease()
+	local ingredientTable = helper.getConsumables(tes3.objectType.ingredient, tes3.effect.cureCommonDisease)
+	tes3.addItem({
+		reference = tes3.player,
+		item = ingredientTable[helper.resolvePriority(#ingredientTable)]
+	})
+	helper.showMessage(messages.ingredient)
+end
+
+function actions.addIngredientBlight()
+	local ingredientTable = helper.getConsumables(tes3.objectType.ingredient, tes3.effect.cureBlightDisease)
 	tes3.addItem({
 		reference = tes3.player,
 		item = ingredientTable[helper.resolvePriority(#ingredientTable)]
@@ -124,7 +160,7 @@ function actions.addScrollRestore(vital)
 	helper.showMessage(messages.scroll)
 end
 
-function actions.addScrollOpen(ref)
+function actions.addScrollOpen()
 	local scrollTable = helper.getScrolls(tes3.effect.open, nil)
 	tes3.addItem({
 		reference = tes3.player,
@@ -133,7 +169,7 @@ function actions.addScrollOpen(ref)
 	helper.showMessage(messages.scroll)
 end
 
-function actions.addScrollLock(ref)
+function actions.addScrollLock()
 	local scrollTable = helper.getScrolls(tes3.effect.lock, nil)
 	tes3.addItem({
 		reference = tes3.player,
@@ -142,7 +178,7 @@ function actions.addScrollLock(ref)
 	helper.showMessage(messages.scroll)
 end
 
-function actions.addScrollFeather(ref)
+function actions.addScrollFeather()
 	local scrollTable = helper.getScrolls(tes3.effect.feather, tes3.effectRange.self)
 	tes3.addItem({
 		reference = tes3.player,
@@ -151,8 +187,26 @@ function actions.addScrollFeather(ref)
 	helper.showMessage(messages.scroll)
 end
 
-function actions.addScrollBurden(ref)
+function actions.addScrollBurden()
 	local scrollTable = helper.getScrolls(tes3.effect.burden, tes3.effectRange.self)
+	tes3.addItem({
+		reference = tes3.player,
+		item = scrollTable[helper.resolvePriority(#scrollTable)]
+	})
+	helper.showMessage(messages.scroll)
+end
+
+function actions.addScrollDisease()
+	local scrollTable = helper.getScrolls(tes3.effect.cureCommonDisease, tes3.effectRange.self)
+	tes3.addItem({
+		reference = tes3.player,
+		item = scrollTable[helper.resolvePriority(#scrollTable)]
+	})
+	helper.showMessage(messages.scroll)
+end
+
+function actions.addScrollBlight()
+	local scrollTable = helper.getScrolls(tes3.effect.cureBlightDisease, tes3.effectRange.self)
 	tes3.addItem({
 		reference = tes3.player,
 		item = scrollTable[helper.resolvePriority(#scrollTable)]
@@ -191,23 +245,13 @@ end
 function actions.feather()
 	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 240, 5))
 	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
-	debug.log(duration)
-	debug.log(power)
 
-	local magicSourceInstance = tes3.applyMagicSource({
-		name = "Pteroma",
-		reference = tes3.player,
-		castChance = 100,
-		bypassResistances = true,
-		effects = {
+	helper.playVisual(
+		"Pteroma",
 		{ id = tes3.effect.feather, duration = duration, min = power, max = power },
-		}
-	})
-	magicSourceInstance:playVisualEffect{
-		effectIndex = 0,
-		position = tes3.player.position,
-		visual = data.vfx.alteration
-	}
+		tes3.player,
+		data.vfx.alteration
+	)
 	helper.showMessage(messages.spellFeather)
 end
 
@@ -215,20 +259,12 @@ function actions.burden()
 	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 5, 240))
 	local power =  helper.resolvePriority(100)
 
-	local magicSourceInstance = tes3.applyMagicSource({
-		name = "Barophoria",
-		reference = tes3.player,
-		castChance = 100,
-		bypassResistances = true,
-		effects = {
+	helper.playVisual(
+		"Barophoria",
 		{ id = tes3.effect.burden, duration = duration, min = power, max = power },
-		}
-	})
-	magicSourceInstance:playVisualEffect{
-		effectIndex = 0,
-		position = tes3.player.position,
-		visual = data.vfx.alteration
-	}
+		tes3.player,
+		data.vfx.alteration
+	)
 	helper.showMessage(messages.spellBurden)
 end
 
@@ -265,6 +301,70 @@ function actions.bountyTeleport()
 		}
 		helper.showMessage(messages.bountyTeleport)
 	end
+end
+
+function actions.templeTeleport()
+	helper.playVisual(
+		"Trioktasis",
+		{ id = tes3.effect.almsiviIntervention, duration = 1, min = 100, max = 100 },
+		tes3.player,
+		data.vfx.mysticism
+	)
+	helper.showMessage(messages.templeTeleport)
+end
+
+function actions.cultTeleport()
+	helper.playVisual(
+		"Theioktasis",
+		{ id = tes3.effect.divineIntervention, duration = 1, min = 100, max = 100 },
+		tes3.player,
+		data.vfx.mysticism
+	)
+	helper.showMessage(messages.cultTeleport)
+end
+
+function actions.cureDisease()
+	helper.playVisual(
+		"Nososeuthesis",
+		{ id = tes3.effect.cureCommonDisease, duration = 1, min = 100, max = 100 },
+		tes3.player,
+		data.vfx.restoration
+	)
+	helper.showMessage(messages.diseaseCured)
+end
+
+function actions.cureBlight()
+	helper.playVisual(
+		"Lytosepsis",
+		{ id = tes3.effect.cureBlightDisease, duration = 1, min = 100, max = 100 },
+		tes3.player,
+		data.vfx.restoration
+	)
+	helper.showMessage(messages.blightCured)
+end
+
+function actions.contractDisease()
+	tes3.cast{
+		reference = tes3.player,
+		spell = table.choice(data.diseases),
+		alwaysSucceeds = true,
+		bypassResistances = true,
+		instant = true,
+		target = tes3.player
+	}
+	helper.showMessage(messages.diseaseContracted)
+end
+
+function actions.contractBlight()
+	tes3.cast{
+		reference = tes3.player,
+		spell = table.choice(data.blights),
+		alwaysSucceeds = true,
+		bypassResistances = true,
+		instant = true,
+		target = tes3.player
+	}
+	helper.showMessage(messages.blightContracted)
 end
 
 --

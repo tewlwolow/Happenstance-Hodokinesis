@@ -159,5 +159,72 @@ function conditions.playerWanted(boon)
 end
 
 
+-- Determine if player is diseased. --
+function conditions.playerDiseased(boon)
+	-- Action definition --
+	-- Order matters. Top = best/less annoying
+	local dispatch = {
+		[true] = {
+			actions.cureDisease,
+			actions.addScrollDisease,
+			actions.addPotionDisease,
+			actions.addIngredientDisease
+		},
+		[false] = {
+			actions.contractDisease
+		}
+	}
+
+	for _, faction in pairs(tes3.dataHandler.nonDynamicData.factions) do
+		if (faction.name == "Temple") and (faction.playerJoined) and not (faction.playerExpelled) then
+			table.insert(dispatch[true], 2, actions.templeTeleport)
+		end
+		if (faction.name == "Imperial Cult") and (faction.playerJoined) and not (faction.playerExpelled) then
+			table.insert(dispatch[true], 2, actions.cultTeleport)
+		end
+	end
+
+
+	local priority = helper.resolvePriority(#dispatch[boon])
+
+	local mp = tes3.mobilePlayer
+
+	return mp.hasCommonDisease, dispatch[boon][priority]
+end
+
+-- Determine if player is blighted. --
+function conditions.playerBlighted(boon)
+	-- Action definition --
+	-- Order matters. Top = best/less annoying
+	local dispatch = {
+		[true] = {
+			actions.cureBlight,
+			actions.addScrollBlight,
+			actions.addPotionBlight,
+			actions.addIngredientBlight
+		},
+		[false] = {
+			actions.contractBlight
+		}
+	}
+
+	for _, faction in pairs(tes3.dataHandler.nonDynamicData.factions) do
+		if (faction.name == "Temple") and (faction.playerJoined) and not (faction.playerExpelled) then
+			table.insert(dispatch[true], 2, actions.templeTeleport)
+		end
+		if (faction.name == "Imperial Cult") and (faction.playerJoined) and not (faction.playerExpelled) then
+			table.insert(dispatch[true], 2, actions.cultTeleport)
+		end
+	end
+
+
+	local priority = helper.resolvePriority(#dispatch[boon])
+
+	local mp = tes3.mobilePlayer
+
+	return mp.hasBlightDisease, dispatch[boon][priority]
+end
+
+
 --
 return conditions
