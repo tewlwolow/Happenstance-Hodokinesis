@@ -177,10 +177,10 @@ function conditions.playerDiseased(boon)
 
 	for _, faction in pairs(tes3.dataHandler.nonDynamicData.factions) do
 		if (faction.name == "Temple") and (faction.playerJoined) and not (faction.playerExpelled) then
-			table.insert(dispatch[true], 2, actions.templeTeleport)
+			table.insert(dispatch[true], 4, actions.templeTeleport)
 		end
 		if (faction.name == "Imperial Cult") and (faction.playerJoined) and not (faction.playerExpelled) then
-			table.insert(dispatch[true], 2, actions.cultTeleport)
+			table.insert(dispatch[true], 4, actions.cultTeleport)
 		end
 	end
 
@@ -210,10 +210,10 @@ function conditions.playerBlighted(boon)
 
 	for _, faction in pairs(tes3.dataHandler.nonDynamicData.factions) do
 		if (faction.name == "Temple") and (faction.playerJoined) and not (faction.playerExpelled) then
-			table.insert(dispatch[true], 2, actions.templeTeleport)
+			table.insert(dispatch[true], 4, actions.templeTeleport)
 		end
 		if (faction.name == "Imperial Cult") and (faction.playerJoined) and not (faction.playerExpelled) then
-			table.insert(dispatch[true], 2, actions.cultTeleport)
+			table.insert(dispatch[true], 4, actions.cultTeleport)
 		end
 	end
 
@@ -223,6 +223,41 @@ function conditions.playerBlighted(boon)
 	local mp = tes3.mobilePlayer
 
 	return mp.hasBlightDisease, dispatch[boon][priority]
+end
+
+-- Determine if player is blighted. --
+function conditions.playerPoisoned(boon)
+	-- Action definition --
+	-- Order matters. Top = best/less annoying
+	local dispatch = {
+		[true] = {
+			actions.curePoison,
+			actions.addScrollCurePoison,
+			actions.addPotionCurePoison,
+			actions.addIngredientPoison
+		},
+		[false] = {
+			actions.addIngredientPoison,
+			actions.addPotionPoison,
+			actions.poison
+		}
+	}
+
+	for _, faction in pairs(tes3.dataHandler.nonDynamicData.factions) do
+		if (faction.name == "Temple") and (faction.playerJoined) and not (faction.playerExpelled) then
+			table.insert(dispatch[true], 4, actions.templeTeleport)
+		end
+		if (faction.name == "Imperial Cult") and (faction.playerJoined) and not (faction.playerExpelled) then
+			table.insert(dispatch[true], 4, actions.cultTeleport)
+		end
+	end
+
+
+	local priority = helper.resolvePriority(#dispatch[boon])
+
+	local mp = tes3.mobilePlayer
+
+	return not table.empty(mp:getActiveMagicEffects{effect = tes3.effect.poison}), dispatch[boon][priority]
 end
 
 

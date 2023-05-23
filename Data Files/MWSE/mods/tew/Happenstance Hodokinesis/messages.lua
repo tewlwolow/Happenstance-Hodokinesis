@@ -27,4 +27,7 @@ messages.blightCured = "An aura of purification surrounds you, dispelling the bl
 messages.diseaseContracted = "Your body betrays you as it succumbs to the grasp of a relentless sickness."
 messages.blightContracted = "The tendrils of the Blight slither through your veins."
 
+messages.spellPoison = "Poisonous fumes envelop you."
+messages.poisonCured = "The magickal aura surrounding you acts as a potent antidote."
+
 return messages

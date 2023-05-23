@@ -97,6 +97,24 @@ function actions.addPotionBlight()
 	helper.showMessage(messages.potion)
 end
 
+function actions.addPotionCurePoison()
+	local potionTable = helper.getConsumables(tes3.objectType.alchemy, tes3.effect.curePoison)
+	tes3.addItem({
+		reference = tes3.player,
+		item = potionTable[helper.resolvePriority(#potionTable)]
+	})
+	helper.showMessage(messages.potion)
+end
+
+function actions.addPotionPoison()
+	local potionTable = helper.getConsumables(tes3.objectType.alchemy, tes3.effect.poison)
+	tes3.addItem({
+		reference = tes3.player,
+		item = potionTable[helper.resolvePriority(#potionTable)]
+	})
+	helper.showMessage(messages.potion)
+end
+
 function actions.addIngredientRestore(vital)
 	local ingredientTable = helper.getConsumables(tes3.objectType.ingredient, helper.getVitalRestoreEffect(vital))
 	tes3.addItem({
@@ -144,6 +162,25 @@ end
 
 function actions.addIngredientBlight()
 	local ingredientTable = helper.getConsumables(tes3.objectType.ingredient, tes3.effect.cureBlightDisease)
+	tes3.addItem({
+		reference = tes3.player,
+		item = ingredientTable[helper.resolvePriority(#ingredientTable)]
+	})
+	helper.showMessage(messages.ingredient)
+end
+
+function actions.addIngredientCurePoison()
+	local ingredientTable = helper.getConsumables(tes3.objectType.ingredient, tes3.effect.curePoison)
+	tes3.addItem({
+		reference = tes3.player,
+		item = ingredientTable[helper.resolvePriority(#ingredientTable)]
+	})
+	helper.showMessage(messages.ingredient)
+end
+
+
+function actions.addIngredientPoison()
+	local ingredientTable = helper.getConsumables(tes3.objectType.ingredient, tes3.effect.poison)
 	tes3.addItem({
 		reference = tes3.player,
 		item = ingredientTable[helper.resolvePriority(#ingredientTable)]
@@ -207,6 +244,15 @@ end
 
 function actions.addScrollBlight()
 	local scrollTable = helper.getScrolls(tes3.effect.cureBlightDisease, tes3.effectRange.self)
+	tes3.addItem({
+		reference = tes3.player,
+		item = scrollTable[helper.resolvePriority(#scrollTable)]
+	})
+	helper.showMessage(messages.scroll)
+end
+
+function actions.addScrollCurePoison()
+	local scrollTable = helper.getScrolls(tes3.effect.curePoison, tes3.effectRange.self)
 	tes3.addItem({
 		reference = tes3.player,
 		item = scrollTable[helper.resolvePriority(#scrollTable)]
@@ -343,6 +389,16 @@ function actions.cureBlight()
 	helper.showMessage(messages.blightCured)
 end
 
+function actions.curePoison()
+	helper.playVisual(
+		"Toxicure",
+		{ id = tes3.effect.curePoison, duration = 1, min = 100, max = 100 },
+		tes3.player,
+		data.vfx.restoration
+	)
+	helper.showMessage(messages.poisonCured)
+end
+
 function actions.contractDisease()
 	tes3.cast{
 		reference = tes3.player,
@@ -365,6 +421,19 @@ function actions.contractBlight()
 		target = tes3.player
 	}
 	helper.showMessage(messages.blightContracted)
+end
+
+function actions.poison()
+	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 5, 20))
+	local power =  helper.resolvePriority(25)
+
+	helper.playVisual(
+		"Toxicon",
+		{ id = tes3.effect.poison, duration = duration, min = power, max = power },
+		tes3.player,
+		data.vfx.poison
+	)
+	helper.showMessage(messages.spellPoison)
 end
 
 --

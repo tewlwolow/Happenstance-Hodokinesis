@@ -7,7 +7,8 @@ data.vfx = {
 	illusion = "VFX_IllusionHit",
 	mysticism = "VFX_MysticismHit",
 	conjuration = "VFX_ConjureCast",
-	restoration = "VFX_RestorationHit"
+	restoration = "VFX_RestorationHit",
+	poison = "VFX_PoisonHit"
 }
 
 data.bountyNPCs = {
@@ -39,5 +40,6 @@ data.diseases = {
 	"witbane",
 	"yellow tick"
 }
+
 
 return data
