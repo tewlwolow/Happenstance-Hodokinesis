@@ -270,6 +270,29 @@ function conditions.playerPoisoned(boon)
 	return not table.empty(mp:getActiveMagicEffects{effect = tes3.effect.poison}), dispatch[boon][priority]
 end
 
+-- Determine if player is blighted. --
+function conditions.playerUnderwater(boon)
+	-- Action definition --
+	-- Order matters. Top = best/less annoying
+	local dispatch = {
+		[true] = {
+			actions.underwaterBoon,
+			actions.addScrollUnderwater,
+			actions.addPotionUnderwater,
+			actions.addIngredientUnderwater
+		},
+		[false] = {
+			actions.burden
+		}
+	}
+
+	local priority = helper.resolvePriority(#dispatch[boon])
+
+	local mp = tes3.mobilePlayer
+
+	return mp.underwater, dispatch[boon][priority]
+end
+
 
 --
 return conditions

@@ -202,15 +202,13 @@ function helper.getMaxVital(vital)
 	return (vital.base + fortifyBonus)
 end
 
-function helper.playVisual(name, effects, ref, vfx)
+function helper.cast(name, effects, ref, vfx)
 	local magicSourceInstance = tes3.applyMagicSource({
 		name = name,
 		reference = ref,
 		castChance = 100,
 		bypassResistances = true,
-		effects = {
-		effects,
-		}
+		effects = effects
 	})
 	magicSourceInstance:playVisualEffect{
 		effectIndex = 0,

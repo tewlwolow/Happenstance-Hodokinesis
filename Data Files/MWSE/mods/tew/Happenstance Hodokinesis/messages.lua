@@ -30,4 +30,6 @@ messages.blightContracted = "The tendrils of the Blight slither through your vei
 messages.spellPoison = "Poisonous fumes envelop you."
 messages.poisonCured = "The magickal aura surrounding you acts as a potent antidote."
 
+messages.underwaterBoon = "The aquatic realm becomes your domain."
+
 return messages

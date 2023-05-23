@@ -17,7 +17,12 @@ function actions.healVital(vital)
     vital.current = helper.roundFloat(vital.current + increment)
     vital.current = math.clamp(vital.current, vital.current, maxVital)
 
-	helper.playVisual(tes3.player, data.vfx.restoration)
+	helper.cast(
+					"Somamend",
+					{{ id = tes3.effect.restoreHealth, duration = 1, min = 0, max = 0 }},
+					tes3.player,
+					data.vfx.restoration
+				)
 	helper.updateVitalsUI()
 	helper.showMessage(messages.healedVital)
 end
@@ -45,7 +50,12 @@ function actions.damageVital(vital)
 	else
     	vital.current = math.clamp(vital.current - helper.roundFloat(decrement), vital.current - vital.current*2, vital.current)
 	end
-	helper.playVisual(tes3.player, data.vfx.destruction)
+	helper.cast(
+		"Somarend",
+		{{ id = tes3.effect.damageHealth, duration = 1, min = 0, max = 0 }},
+		tes3.player,
+		data.vfx.destruction
+	)
 
 	helper.updateVitalsUI()
 	helper.showMessage(messages.damagedVital)
@@ -111,6 +121,17 @@ function actions.addPotionPoison()
 	tes3.addItem({
 		reference = tes3.player,
 		item = potionTable[helper.resolvePriority(#potionTable)]
+	})
+	helper.showMessage(messages.potion)
+end
+
+function actions.addPotionUnderwater()
+	local potionTable_swim = helper.getConsumables(tes3.objectType.alchemy, tes3.effect.swiftSwim)
+	local potionTable_breathe = helper.getConsumables(tes3.objectType.alchemy, tes3.effect.waterBreathing)
+	table.copy(potionTable_swim, potionTable_breathe)
+	tes3.addItem({
+		reference = tes3.player,
+		item = potionTable_breathe[helper.resolvePriority(#potionTable_breathe)]
 	})
 	helper.showMessage(messages.potion)
 end
@@ -188,6 +209,18 @@ function actions.addIngredientPoison()
 	helper.showMessage(messages.ingredient)
 end
 
+function actions.addIngredientUnderwater()
+	local ingredientTable_swim = helper.getConsumables(tes3.objectType.ingredient, tes3.effect.swiftSwim)
+	local ingredientTable_breathe = helper.getConsumables(tes3.objectType.ingredient, tes3.effect.waterBreathing)
+	table.copy(ingredientTable_swim, ingredientTable_breathe)
+	tes3.addItem({
+		reference = tes3.player,
+		item = ingredientTable_breathe[helper.resolvePriority(#ingredientTable_breathe)]
+	})
+	helper.showMessage(messages.ingredient)
+end
+
+
 function actions.addScrollRestore(vital)
 	local scrollTable = helper.getScrolls(helper.getVitalRestoreEffect(vital), tes3.effectRange.self)
 	tes3.addItem({
@@ -260,14 +293,35 @@ function actions.addScrollCurePoison()
 	helper.showMessage(messages.scroll)
 end
 
+function actions.addScrollUnderwater()
+	local scrollTable_swim = helper.getScrolls(tes3.effect.swiftSwim, tes3.effectRange.self)
+	local scrollTable_breathe = helper.getScrolls(tes3.effect.waterBreathing, tes3.effectRange.self)
+	table.copy(scrollTable_swim, scrollTable_breathe)
+	tes3.addItem({
+		reference = tes3.player,
+		item = scrollTable_breathe[helper.resolvePriority(#scrollTable_breathe)]
+	})
+	helper.showMessage(messages.scroll)
+end
+
 function actions.unlock(ref)
-	helper.playVisual(ref, data.vfx.alteration)
+	helper.cast(
+		"Apokopto",
+		{{ id = tes3.effect.open, duration = 1, min = 0, max = 0 }},
+		ref,
+		data.vfx.alteration
+	)
 	tes3.unlock{reference = ref}
 	helper.showMessage(messages.unlocked)
 end
 
 function actions.lockLess(ref)
-	helper.playVisual(ref, data.vfx.alteration)
+	helper.cast(
+		"Trizo",
+		{{ id = tes3.effect.open, duration = 1, min = 0, max = 0 }},
+		ref,
+		data.vfx.alteration
+	)
 	local lockNode = ref.lockNode
 	if lockNode then
 		local levelOld = lockNode.level
@@ -278,7 +332,12 @@ function actions.lockLess(ref)
 end
 
 function actions.lockMore(ref)
-	helper.playVisual(ref, data.vfx.alteration)
+	helper.cast(
+		"Perikleio",
+		{{ id = tes3.effect.open, duration = 1, min = 0, max = 0 }},
+		ref,
+		data.vfx.alteration
+	)
 	local lockNode = ref.lockNode
 	if lockNode then
 		local levelOld = lockNode.level
@@ -292,9 +351,9 @@ function actions.feather()
 	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 240, 5))
 	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
 
-	helper.playVisual(
+	helper.cast(
 		"Pteroma",
-		{ id = tes3.effect.feather, duration = duration, min = power, max = power },
+		{{ id = tes3.effect.feather, duration = duration, min = power, max = power }},
 		tes3.player,
 		data.vfx.alteration
 	)
@@ -305,9 +364,9 @@ function actions.burden()
 	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 5, 240))
 	local power =  helper.resolvePriority(100)
 
-	helper.playVisual(
+	helper.cast(
 		"Barophoria",
-		{ id = tes3.effect.burden, duration = duration, min = power, max = power },
+		{{ id = tes3.effect.burden, duration = duration, min = power, max = power }},
 		tes3.player,
 		data.vfx.alteration
 	)
@@ -350,9 +409,9 @@ function actions.bountyTeleport()
 end
 
 function actions.templeTeleport()
-	helper.playVisual(
+	helper.cast(
 		"Trioktasis",
-		{ id = tes3.effect.almsiviIntervention, duration = 1, min = 100, max = 100 },
+		{{ id = tes3.effect.almsiviIntervention, duration = 1, min = 100, max = 100 }},
 		tes3.player,
 		data.vfx.mysticism
 	)
@@ -360,9 +419,9 @@ function actions.templeTeleport()
 end
 
 function actions.cultTeleport()
-	helper.playVisual(
+	helper.cast(
 		"Theioktasis",
-		{ id = tes3.effect.divineIntervention, duration = 1, min = 100, max = 100 },
+		{{ id = tes3.effect.divineIntervention, duration = 1, min = 100, max = 100 }},
 		tes3.player,
 		data.vfx.mysticism
 	)
@@ -370,9 +429,9 @@ function actions.cultTeleport()
 end
 
 function actions.cureDisease()
-	helper.playVisual(
+	helper.cast(
 		"Nososeuthesis",
-		{ id = tes3.effect.cureCommonDisease, duration = 1, min = 100, max = 100 },
+		{{ id = tes3.effect.cureCommonDisease, duration = 1, min = 100, max = 100 }},
 		tes3.player,
 		data.vfx.restoration
 	)
@@ -380,9 +439,9 @@ function actions.cureDisease()
 end
 
 function actions.cureBlight()
-	helper.playVisual(
+	helper.cast(
 		"Lytosepsis",
-		{ id = tes3.effect.cureBlightDisease, duration = 1, min = 100, max = 100 },
+		{{ id = tes3.effect.cureBlightDisease, duration = 1, min = 100, max = 100 }},
 		tes3.player,
 		data.vfx.restoration
 	)
@@ -390,9 +449,9 @@ function actions.cureBlight()
 end
 
 function actions.curePoison()
-	helper.playVisual(
+	helper.cast(
 		"Toxicure",
-		{ id = tes3.effect.curePoison, duration = 1, min = 100, max = 100 },
+		{{ id = tes3.effect.curePoison, duration = 1, min = 100, max = 100 }},
 		tes3.player,
 		data.vfx.restoration
 	)
@@ -425,15 +484,31 @@ end
 
 function actions.poison()
 	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 5, 20))
-	local power =  helper.resolvePriority(25)
+	local power =  helper.resolvePriority(15)
 
-	helper.playVisual(
+	helper.cast(
 		"Toxicon",
-		{ id = tes3.effect.poison, duration = duration, min = power, max = power },
+		{{ id = tes3.effect.poison, duration = duration, min = power, max = power }},
 		tes3.player,
 		data.vfx.poison
 	)
 	helper.showMessage(messages.spellPoison)
+end
+
+function actions.underwaterBoon()
+	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 240, 5))
+	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
+
+	helper.cast(
+		"Ichtioid",
+		{
+			{ id = tes3.effect.swiftSwim, duration = duration, min = power, max = power },
+			{ id = tes3.effect.waterBreathing, duration = duration, min = power, max = power }
+		},
+		tes3.player,
+		data.vfx.alteration
+	)
+	helper.showMessage(messages.underwaterBoon)
 end
 
 --
