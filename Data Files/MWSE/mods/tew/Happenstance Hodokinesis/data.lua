@@ -10,4 +10,11 @@ data.vfx = {
 	restoration = "VFX_RestorationHit"
 }
 
+data.bountyNPCs = {
+	"rissinia",
+	"arantamo",
+	"phane rielle",
+	"tongue_toad"
+}
+
 return data

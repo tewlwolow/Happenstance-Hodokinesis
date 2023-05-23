@@ -140,11 +140,18 @@ function conditions.playerWanted(boon)
 			actions.bountyMore
 		}
 	}
-	-- TODO: Detect if player in TG, teleport to nearest bounty handler
+
+	for _, faction in pairs(tes3.dataHandler.nonDynamicData.factions) do
+		if (faction.name == "Thieves Guild") and (faction.playerJoined) and not (faction.playerExpelled) then
+			table.insert(dispatch[true], actions.bountyTeleport)
+			break
+		end
+	end
 
 	local priority = helper.resolvePriority(#dispatch[boon])
 
 	local mp = tes3.mobilePlayer
+
 
 	local bounty = mp.bounty
 

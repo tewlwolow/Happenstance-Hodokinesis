@@ -227,5 +227,14 @@ function helper.showMessage(message)
 	end
 end
 
+function helper.getRandomNPCPositionFromTable(tab)
+	local mp = tes3.mobilePlayer
+	if mp then
+		local playerPosition = mp.position:copy()
+		local npc = tes3.getReference(table.choice(tab))
+		return npc.position:copy(), npc.cell
+	end
+end
+
 --
 return helper

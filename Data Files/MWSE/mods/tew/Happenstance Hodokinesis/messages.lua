@@ -16,5 +16,6 @@ messages.lockedMore = "The lock's resistance intensifies."
 
 messages.bountyMore = "Your reputation as a troublemaker spreads."
 messages.bountyLess = "The weight of your transgressions lessens."
+messages.bountyTeleport = "You find yourself in a new location, where a Guild comrade can help with your bounty."
 
 return messages

@@ -236,8 +236,7 @@ function actions.bountyLess()
 	local mp = tes3.mobilePlayer
 	local bounty = mp.bounty
 	local percentage = math.clamp(math.remap(helper.resolvePriority(100), 1, 100, 100, 1) / 100, 0.0, 1.0)
-	local newBounty = (bounty) - (bounty * percentage)
-	debug.log(newBounty)
+	local newBounty = helper.roundFloat((bounty) - (bounty * percentage))
 	mp.bounty = newBounty
 	helper.showMessage(messages.bountyLess)
 end
@@ -246,10 +245,26 @@ function actions.bountyMore()
 	local mp = tes3.mobilePlayer
 	local bounty = mp.bounty
 	local percentage = math.clamp(helper.resolvePriority(100) / 100, 0.0, 1.0)
-	local newBounty = (bounty) + (bounty * percentage)
-	debug.log(newBounty)
+	local newBounty = helper.roundFloat((bounty) + (bounty * percentage))
 	mp.bounty = newBounty
 	helper.showMessage(messages.bountyMore)
+end
+
+function actions.bountyTeleport()
+	local locations = data.bountyNPCs
+	local mp = tes3.mobilePlayer
+	local teleportPosition, teleportCell
+	if mp then
+		teleportPosition, teleportCell = helper.getRandomNPCPositionFromTable(locations)
+	end
+	debug.log(teleportPosition)
+	if teleportPosition and teleportCell then
+		tes3.positionCell{
+			position = teleportPosition,
+			cell = teleportCell
+		}
+		helper.showMessage(messages.bountyTeleport)
+	end
 end
 
 --
