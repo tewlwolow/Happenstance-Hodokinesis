@@ -25,6 +25,16 @@ function conditions.playerVitalsLow(boon)
 			actions.damageVital
 		}
 	}
+
+	for _, faction in pairs(tes3.dataHandler.nonDynamicData.factions) do
+		if (faction.name == "Temple") and (faction.playerJoined) and not (faction.playerExpelled) then
+			table.insert(dispatch[true], 4, actions.templeTeleport)
+		end
+		if (faction.name == "Imperial Cult") and (faction.playerJoined) and not (faction.playerExpelled) then
+			table.insert(dispatch[true], 4, actions.cultTeleport)
+		end
+	end
+
 	local priority = helper.resolvePriority(#dispatch[boon])
 
 	local statNames = {"health", "fatigue", "magicka"}
