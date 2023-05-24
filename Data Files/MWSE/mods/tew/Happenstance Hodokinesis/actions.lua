@@ -519,5 +519,120 @@ function actions.teleportOutside()
 	end
 end
 
+function actions.calmHostiles()
+	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 240, 5))
+	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
+	local mp = tes3.mobilePlayer
+	for _, v in ipairs(mp.hostileActors) do
+		helper.cast(
+			"Eirenikos",
+			{{ id = tes3.effect.calmHumanoid, duration = duration, min = power, max = power }},
+			v.reference,
+			data.vfx.illusion
+		)
+		helper.cast(
+			"Eirenikos",
+			{{ id = tes3.effect.calmCreature, duration = duration, min = power, max = power }},
+			v.reference,
+			data.vfx.illusion
+		)
+	end
+	helper.showMessage(messages.calmHostiles)
+end
+
+function actions.sanctuary()
+	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 240, 5))
+	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
+
+	helper.cast(
+		"Asylion",
+		{{ id = tes3.effect.sanctuary, duration = duration, min = power, max = power }},
+		tes3.player,
+		data.vfx.illusion
+	)
+	helper.showMessage(messages.sanctuary)
+end
+
+function actions.chameleon()
+	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 240, 5))
+	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
+
+	helper.cast(
+		"Chromaleontis",
+		{{ id = tes3.effect.chameleon, duration = duration, min = power, max = power }},
+		tes3.player,
+		data.vfx.illusion
+	)
+	helper.showMessage(messages.chameleon)
+end
+
+function actions.invisibility()
+	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 240, 5))
+	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
+
+	helper.cast(
+		"Adelotesis",
+		{{ id = tes3.effect.invisibility, duration = duration, min = power, max = power }},
+		tes3.player,
+		data.vfx.illusion
+	)
+	helper.showMessage(messages.invisibility)
+end
+
+function actions.disintegrateWeapon()
+	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 5, 240))
+	local power =  helper.resolvePriority(100)
+
+	helper.cast(
+		"Melilochysis",
+		{{ id = tes3.effect.disintegrateWeapon, duration = duration, min = power, max = power }},
+		tes3.player,
+		data.vfx.destruction
+	)
+	helper.showMessage(messages.disintegrateWeapon)
+end
+
+function actions.disintegrateArmor()
+	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 5, 240))
+	local power =  helper.resolvePriority(100)
+
+	helper.cast(
+		"Orektomacheia",
+		{{ id = tes3.effect.disintegrateArmor, duration = duration, min = power, max = power }},
+		tes3.player,
+		data.vfx.destruction
+	)
+	helper.showMessage(messages.disintegrateArmor)
+end
+
+function actions.killHostiles()
+	local mp = tes3.mobilePlayer
+	for _, v in ipairs(mp.hostileActors) do
+		v.health.current = 0
+	end
+	helper.showMessage(messages.killHostiles)
+end
+
+function actions.damageHostiles()
+	local mp = tes3.mobilePlayer
+	for _, v in ipairs(mp.hostileActors) do
+		local chance = helper.calcActionChance()
+		local randomValue = math.random()
+		local vital = v.health
+		local range = math.clamp(vital.current / chance, vital.current - vital.current*2, vital.current)
+		local decrement = range * randomValue
+
+		vital.current = math.clamp(vital.current - helper.roundFloat(decrement), vital.current - vital.current*2, vital.current)
+
+		helper.cast(
+			"Somarend",
+			{{ id = tes3.effect.damageHealth, duration = 1, min = 0, max = 0 }},
+			v.reference,
+			data.vfx.destruction
+		)
+	end
+	helper.showMessage(messages.damageHostiles)
+end
+
 --
 return actions

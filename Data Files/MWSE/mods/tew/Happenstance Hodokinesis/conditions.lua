@@ -300,15 +300,19 @@ function conditions.playerInCombat(boon)
 	-- Order matters. Top = best/less annoying
 	local dispatch = {
 		[true] = {
-			-- actions.calmFoes,
-			-- actions.sanctuary,
-			-- actions.chameleon,
-			-- actions.invisibility
+			actions.killHostiles,
+			actions.damageHostiles,
+			actions.calmHostiles,
+			actions.invisibility,
+			actions.sanctuary,
+			actions.chameleon,
 		},
 		[false] = {
 			function() actions.damageVital(tes3.mobilePlayer.fatigue) end,
 			function() actions.damageVital(tes3.mobilePlayer.magicka) end,
-			function() actions.damageVital(tes3.mobilePlayer.health) end
+			function() actions.damageVital(tes3.mobilePlayer.health) end,
+			actions.disintegrateWeapon,
+			actions.disintegrateArmor
 		}
 	}
 
@@ -316,20 +320,28 @@ function conditions.playerInCombat(boon)
 
 	for _, faction in pairs(tes3.dataHandler.nonDynamicData.factions) do
 		if (faction.name == "Temple") and (faction.playerJoined) and not (faction.playerExpelled) then
-			table.insert(dispatch[true], 4, actions.templeTeleport)
+			table.insert(dispatch[true], 5, actions.templeTeleport)
 		end
 		if (faction.name == "Imperial Cult") and (faction.playerJoined) and not (faction.playerExpelled) then
-			table.insert(dispatch[true], 4, actions.cultTeleport)
+			table.insert(dispatch[true], 5, actions.cultTeleport)
 		end
 	end
 
 	if mp.cell.isInterior then
-		table.insert(dispatch[true], 1, actions.teleportOutside)
+		table.insert(dispatch[true], 4, actions.teleportOutside)
+	end
+
+	local hostilesInCombat = false
+	for _, v in ipairs(mp.hostileActors) do
+		if v.inCombat then
+			hostilesInCombat = true
+			break
+		end
 	end
 
 	local priority = helper.resolvePriority(#dispatch[boon])
 
-	return mp.inCombat, dispatch[boon][priority]
+	return (mp.inCombat and hostilesInCombat), dispatch[boon][priority]
 end
 
 

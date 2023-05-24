@@ -34,4 +34,19 @@ messages.underwaterBoon = "The aquatic realm becomes your domain."
 
 messages.teleportOutside = "You find yourself whisked away from the chaos of battle."
 
+messages.calmHostiles = "A tranquil hush settles upon your foes."
+messages.frenzyHostiles = "The minds of your foes are engulfed in frenzied turmoil."
+
+messages.sanctuary = "You are enveloped in a sanctuary of tranquility, guarded against the onslaught of adversity."
+messages.chameleon = "Your presence becomes elusive, merging effortlessly into the tapestry of the world."
+messages.invisibility = "A shroud of unseen energies cloaks your form, rendering you invisible to the world."
+
+messages.disintegrateArmor = "Your armor suffers severe damage, its protective properties weakened."
+messages.disintegrateWeapon = "Your weapon sustains significant damage, its effectiveness compromised."
+
+messages.killHostiles = "Through mystical ways, your adversaries drop to the ground before you."
+messages.damageHostiles = "Your foes vital energy crumbles as they weaken."
+
+messages.luckIncreased = "Fortune smiles upon you, bestowing an increase in luck."
+
 return messages

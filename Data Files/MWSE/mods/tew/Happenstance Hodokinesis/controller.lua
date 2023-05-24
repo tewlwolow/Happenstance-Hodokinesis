@@ -7,6 +7,7 @@ local constants = require("tew.Happenstance Hodokinesis.constants")
 local conditions = require("tew.Happenstance Hodokinesis.conditions")
 local helper = require("tew.Happenstance Hodokinesis.helper")
 local data = require("tew.Happenstance Hodokinesis.data")
+local dataHandler = require("tew.Happenstance Hodokinesis.dataHandler")
 --
 
 function controller.roll()
@@ -48,6 +49,11 @@ function controller.roll()
 				)
 				castSound:play()
 				rolledAction()
+				dataHandler.setUsedPerDay(tes3.worldController.daysPassed.value)
+				if boon and tes3.mobilePlayer.luck.current < 100 then
+					local increase = helper.calcActionChance()/10
+					dataHandler.setLuckProgress(increase)
+				end
 			end
 		}
 	end

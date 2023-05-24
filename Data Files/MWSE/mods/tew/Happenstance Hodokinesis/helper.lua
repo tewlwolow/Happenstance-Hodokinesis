@@ -4,11 +4,13 @@
 local helper = {}
 
 local config = require("tew.Happenstance Hodokinesis.config")
+local dataHandler = require("tew.Happenstance Hodokinesis.dataHandler")
 
 -- We need to calculate a chance of good/bad effects to happen, based on the player's Luck --
 function helper.calcActionChance()
-	-- TODO: introduce diminishing returns based on data - how many times used today? If more than x, diminish chance.
-	return (tes3.mobilePlayer.luck.current / 100) + 0.1
+	local chance = math.clamp((tes3.mobilePlayer.luck.current / 100 - (dataHandler.getUsedPerDay(tes3.worldController.daysPassed.value) / 10)), 0.05, 1.0)
+	debug.log(chance)
+	return chance
 end
 
 function helper.calcBoon()
