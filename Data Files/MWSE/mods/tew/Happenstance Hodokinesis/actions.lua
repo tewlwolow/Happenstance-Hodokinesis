@@ -398,7 +398,6 @@ function actions.bountyTeleport()
 	if mp then
 		teleportPosition, teleportCell = helper.getRandomNPCPositionFromTable(locations)
 	end
-	debug.log(teleportPosition)
 	if teleportPosition and teleportCell then
 		tes3.positionCell{
 			position = teleportPosition,
