@@ -9,6 +9,7 @@ local helper = require("tew.Happenstance Hodokinesis.helper")
 local data = require("tew.Happenstance Hodokinesis.data")
 local dataHandler = require("tew.Happenstance Hodokinesis.dataHandler")
 local random = require("tew.Happenstance Hodokinesis.random")
+local messages = require("tew.Happenstance Hodokinesis.messages")
 --
 
 function controller.roll()
@@ -33,37 +34,39 @@ function controller.roll()
 	-- Roll a dice to get a randomised applicable action to take. --
 	local rolledAction = table.choice(currentConditions)
 	if not rolledAction then
-		if dataHandler.getUsedPerDay(day) < 5 then
-			rolledAction = table.choice(random.actions)
-		end
+		rolledAction = table.choice(random.actions)
 	end
 
 	-- If we got a hit, i.e. there are some applicable conditions, let's run the action. --
 	if rolledAction then
-		local rollSound = tes3.getSound(constants.SOUND_ROLL)
-		local castSound = tes3.getSound(constants.SOUND_CAST)
-		rollSound:play()
-		timer.start{
-			type=timer.real,
-			iterations = 1,
-			duration = 2.3,
-			persist = false,
-			callback = function()
-				helper.cast(
-					"Happenstance Hodokinesis",
-					{{ id = tes3.effect.dispel, duration = 1, min = 0, max = 0 }},
-					tes3.player,
-					data.vfx.mysticism
-				)
-				castSound:play()
-				rolledAction()
-				dataHandler.setUsedPerDay(day)
-				if boon and tes3.mobilePlayer.luck.current < 100 then
-					local increase = helper.calcActionChance()/10
-					dataHandler.setLuckProgress(increase)
+		if dataHandler.getUsedPerDay(day) < helper.getUsageLimit() then
+			local rollSound = tes3.getSound(constants.SOUND_ROLL)
+			local castSound = tes3.getSound(constants.SOUND_CAST)
+			rollSound:play()
+			timer.start{
+				type=timer.real,
+				iterations = 1,
+				duration = 2.3,
+				persist = false,
+				callback = function()
+					helper.cast(
+						"Happenstance Hodokinesis",
+						{{ id = tes3.effect.dispel, duration = 1, min = 0, max = 0 }},
+						tes3.player,
+						data.vfx.mysticism
+					)
+					castSound:play()
+					rolledAction()
+					dataHandler.setUsedPerDay(day)
+					if boon and tes3.mobilePlayer.luck.current < 100 then
+						local increase = helper.calcActionChance()/10
+						dataHandler.setLuckProgress(increase)
+					end
 				end
-			end
-		}
+			}
+		else
+			helper.showMessage(messages.aleaInactive)
+		end
 	end
 end
 
