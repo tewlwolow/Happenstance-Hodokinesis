@@ -653,7 +653,7 @@ function actions.teleportRandom()
 		position = table.choice(positions),
 		cell = teleportCell
 	}
-	event.register(tes3.event.cellChanged, function() tes3.runLegacyScript{command = "fixme"} debug.log("fixme ran") end, { doOnce = true })
+	event.register(tes3.event.cellChanged, function() tes3.runLegacyScript{command = "fixme"} end, { doOnce = true })
 	helper.showMessage(messages.teleportRandom)
 end
 
