@@ -49,4 +49,6 @@ messages.damageHostiles = "Your foes vital energy crumbles as they weaken."
 
 messages.luckIncreased = "Fortune smiles upon you, bestowing an increase in luck."
 
+messages.scribSummoned = "A friendly scrib appears, scuttling about with curiosity and a hint of mischief."
+
 return messages
