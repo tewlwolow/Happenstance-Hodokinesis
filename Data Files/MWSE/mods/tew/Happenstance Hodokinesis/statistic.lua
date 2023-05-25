@@ -1,7 +1,7 @@
 local statistic = {}
 
-local helper = require("tew.Happenstance Hodokinesis.helper")
 local messages = require("tew.Happenstance Hodokinesis.messages")
+local config = require("tew.Happenstance Hodokinesis.config")
 
 function statistic.increaseLuck()
 	tes3.modStatistic{
@@ -10,7 +10,11 @@ function statistic.increaseLuck()
 		value = 1,
 		limit = true,
 	}
-	helper.showMessage(messages.luckIncreased)
+	if config.showInfoMessages then
+		tes3.messageBox{
+			message = messages.luckIncreased
+		}
+	end
 end
 
 return statistic
