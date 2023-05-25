@@ -249,5 +249,33 @@ function helper.getExteriorDoor(cell)
 	end
 end
 
+function helper.getRandomCellRefPositions()
+	local teleportCell = table.choice(tes3.dataHandler.nonDynamicData.cells)
+	local positions = {}
+	for ref in teleportCell:iterateReferences() do
+		if ref.position then
+			local pos = ref.position
+			table.insert(positions, pos)
+		end
+	end
+	return teleportCell, positions
+end
+
+function helper.getUsageLimit()
+	return helper.roundFloat((math.remap(tes3.mobilePlayer.luck.current, 1, 100, 1, 10)))
+end
+
+-- function helper.joinTables(tables)
+-- 	local output = {}
+-- 	local n = 0
+-- 	for _, tab in ipairs(tables) do
+-- 		for _,v in ipairs(tab) do
+-- 			n=n+1
+-- 			output[n]=v
+-- 		end
+-- 	end
+-- 	return output
+-- end
+
 --
 return helper
