@@ -633,5 +633,15 @@ function actions.damageHostiles()
 	helper.showMessage(messages.damageHostiles)
 end
 
+function actions.summonScrib()
+	tes3.createReference{
+		object = "scrib",
+		position = tes3.mobilePlayer.reference.position,
+		orientation = tes3.mobilePlayer.reference.orientation,
+		cell = tes3.player.cell,
+	}
+	helper.showMessage(messages.scribSummoned)
+end
+
 --
 return actions
