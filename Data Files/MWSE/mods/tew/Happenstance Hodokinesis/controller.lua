@@ -8,11 +8,14 @@ local conditions = require("tew.Happenstance Hodokinesis.conditions")
 local helper = require("tew.Happenstance Hodokinesis.helper")
 local data = require("tew.Happenstance Hodokinesis.data")
 local dataHandler = require("tew.Happenstance Hodokinesis.dataHandler")
+local random = require("tew.Happenstance Hodokinesis.random")
 --
 
 function controller.roll()
 	-- This is a base chance for either a bonus or a malus to be applied, based on the player's Luck. --
 	local boon = helper.calcBoon()
+
+	local day = tes3.worldController.daysPassed.value
 
 	-- This is a table to hold our applicable conditions. --
 	local currentConditions = {}
@@ -29,6 +32,11 @@ function controller.roll()
 
 	-- Roll a dice to get a randomised applicable action to take. --
 	local rolledAction = table.choice(currentConditions)
+	if not rolledAction then
+		if dataHandler.getUsedPerDay(day) < 5 then
+			rolledAction = table.choice(random.actions)
+		end
+	end
 
 	-- If we got a hit, i.e. there are some applicable conditions, let's run the action. --
 	if rolledAction then
@@ -49,7 +57,7 @@ function controller.roll()
 				)
 				castSound:play()
 				rolledAction()
-				dataHandler.setUsedPerDay(tes3.worldController.daysPassed.value)
+				dataHandler.setUsedPerDay(day)
 				if boon and tes3.mobilePlayer.luck.current < 100 then
 					local increase = helper.calcActionChance()/10
 					dataHandler.setLuckProgress(increase)
