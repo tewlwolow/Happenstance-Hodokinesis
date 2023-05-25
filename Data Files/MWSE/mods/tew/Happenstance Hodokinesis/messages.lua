@@ -28,7 +28,7 @@ messages.diseaseContracted = "Your body betrays you as it succumbs to the grasp 
 messages.blightContracted = "The tendrils of the Blight slither through your veins."
 
 messages.spellPoison = "Poisonous fumes envelop you."
-messages.poisonCured = "The magickal aura surrounding you acts as a potent antidote."
+messages.poisonCured = "The magical aura surrounding you acts as a potent antidote."
 
 messages.underwaterBoon = "The aquatic realm becomes your domain."
 
@@ -50,5 +50,9 @@ messages.damageHostiles = "Your foes vital energy crumbles as they weaken."
 messages.luckIncreased = "Fortune smiles upon you, bestowing an increase in luck."
 
 messages.scribSummoned = "A friendly scrib appears, scuttling about with curiosity and a hint of mischief."
+
+messages.teleportRandom = "You find yourself in a completely new location."
+
+messages.aleaInactive = "Alepsychon seems drained of any magical essence."
 
 return messages
