@@ -643,5 +643,19 @@ function actions.summonScrib()
 	helper.showMessage(messages.scribSummoned)
 end
 
+function actions.teleportRandom()
+	local teleportCell, positions = helper.getRandomCellRefPositions()
+	while (table.empty(positions)) do
+		teleportCell, positions = helper.getRandomCellRefPositions()
+	end
+
+	tes3.positionCell{
+		position = table.choice(positions),
+		cell = teleportCell
+	}
+	event.register(tes3.event.cellChanged, function() tes3.runLegacyScript{command = "fixme"} debug.log("fixme ran") end, { doOnce = true })
+	helper.showMessage(messages.teleportRandom)
+end
+
 --
 return actions
