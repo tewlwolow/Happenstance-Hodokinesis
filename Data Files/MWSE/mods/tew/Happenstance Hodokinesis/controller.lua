@@ -56,12 +56,12 @@ function controller.roll()
 						data.vfx.mysticism
 					)
 					castSound:play()
-					rolledAction()
 					dataHandler.setUsedPerDay(day)
 					if boon and tes3.mobilePlayer.luck.current < 100 then
 						local increase = helper.calcActionChance()/10
 						dataHandler.setLuckProgress(increase)
 					end
+					rolledAction()
 				end
 			}
 		else
