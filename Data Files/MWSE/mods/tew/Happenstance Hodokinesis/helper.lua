@@ -8,11 +8,17 @@ local dataHandler = require("tew.Happenstance Hodokinesis.dataHandler")
 
 -- We need to calculate a chance of good/bad effects to happen, based on the player's Luck --
 function helper.calcActionChance()
-	return math.clamp((tes3.mobilePlayer.luck.current / 100 - (dataHandler.getUsedPerDay(tes3.worldController.daysPassed.value) / 10)), 0.05, 1.0)
+	return math.clamp(
+		(
+			(tes3.mobilePlayer.luck.current / 100) - (dataHandler.getUsedPerDay(tes3.worldController.daysPassed.value) / 50)
+		),
+		0.01,
+		1.0
+	)
 end
 
 function helper.calcBoon()
-	return helper.calcActionChance() > math.random()
+	return helper.calcActionChance() > (math.random(1, 100) / 100)
 end
 
 function helper.getVitalRestoreEffect(vital)
@@ -88,7 +94,7 @@ end
 function helper.resolvePriority(tableSize)
 	if tableSize == 1 then return tableSize end
 
-	local luck = tes3.mobilePlayer.luck.current
+	local luck = helper.calcActionChance() * 100
 	local clampedLuck = math.clamp(luck, 0, 100)
 
 	local minIndex = 1
@@ -98,7 +104,7 @@ function helper.resolvePriority(tableSize)
 	local scalingFactor = 1 - clampedLuck / 100
 
 	-- Determine whether to completely randomize the luck
-	local completelyRandom = math.random() <= 0.15 -- Adjust the chance as desired
+	local completelyRandom = math.random() <= 0.2
 
 	local randomOffset = 0
 	if completelyRandom then
