@@ -7,8 +7,9 @@ local metadata = toml.loadMetadata("Happenstance Hodokinesis")
 local function init()
     if not (metadata) then
 		util.metadataMissing()
+    else
+        mwse.log("[" .. metadata.package.name .."] Version " .. metadata.package.version .. " initialised.")
 	end
-    mwse.log("[" .. metadata.package.name .."] Version " .. metadata.package.version .. " initialised.")
     dofile("Data Files\\MWSE\\mods\\tew\\Happenstance Hodokinesis\\events.lua")
 end
 
@@ -18,3 +19,13 @@ event.register(tes3.event.initialized, init)
 event.register(tes3.event.modConfigReady, function()
     dofile("Data Files\\MWSE\\mods\\tew\\Happenstance Hodokinesis\\mcm.lua")
 end)
+
+--[[
+    TODO:
+        Blacklist quest cells
+        Clutter and dialogue
+        Container lucky encounters in random
+        Alchemy
+        Disposition
+        Merchants? Barter boost?
+]]
