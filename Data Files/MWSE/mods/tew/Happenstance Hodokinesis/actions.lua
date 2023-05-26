@@ -666,9 +666,9 @@ function actions.luckyContainer()
 			item = "glass dagger",
 			count = 10
 		}
-		event.unregister("activate", addLuckyLoot)
+		event.unregister(tes3.event.activate, addLuckyLoot)
 	end
-	event.register("activate", addLuckyLoot)
+	event.register(tes3.event.activate, addLuckyLoot)
 	helper.showMessage(messages.luckyContainer)
 end
 
