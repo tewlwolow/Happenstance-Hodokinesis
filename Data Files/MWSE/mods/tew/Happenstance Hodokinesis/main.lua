@@ -22,9 +22,8 @@ end)
 
 --[[
     TODO:
-        Blacklist quest cells
         Clutter and dialogue
-        Container lucky encounters in random
+        Container lucky encounters at random (item tiers)
         Alchemy
         Disposition
         Merchants? Barter boost?

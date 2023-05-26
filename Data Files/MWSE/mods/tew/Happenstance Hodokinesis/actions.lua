@@ -657,5 +657,20 @@ function actions.teleportRandom()
 	helper.showMessage(messages.teleportRandom)
 end
 
+function actions.luckyContainer()
+	local function addLuckyLoot(e)
+		local ref = e.target
+		if not (ref.object.objectType == tes3.objectType.container) or (ref.organic) then return end
+		tes3.addItem{
+			reference = ref,
+			item = "glass dagger",
+			count = 10
+		}
+		event.unregister("activate", addLuckyLoot)
+	end
+	event.register("activate", addLuckyLoot)
+	helper.showMessage(messages.luckyContainer)
+end
+
 --
 return actions

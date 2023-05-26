@@ -55,4 +55,6 @@ messages.teleportRandom = "You find yourself in a completely new location."
 
 messages.aleaInactive = "Alepsychon seems drained of any magical essence."
 
+messages.luckyContainer = "You have a feeling you will find something valuable soon."
+
 return messages
