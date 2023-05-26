@@ -645,7 +645,7 @@ end
 
 function actions.teleportRandom()
 	local teleportCell, positions = helper.getRandomCellRefPositions()
-	while (table.empty(positions)) do
+	while (table.empty(positions)) or (data.blacklistedCells[teleportCell.editorName]) do
 		teleportCell, positions = helper.getRandomCellRefPositions()
 	end
 
