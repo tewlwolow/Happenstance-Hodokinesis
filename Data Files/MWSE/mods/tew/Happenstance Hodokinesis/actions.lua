@@ -660,11 +660,12 @@ end
 function actions.luckyContainer()
 	local function addLuckyLoot(e)
 		local ref = e.target
-		if not (ref.object.objectType == tes3.objectType.container) or (ref.organic) then return end
+		if not (ref.object.objectType == tes3.objectType.container) or (ref.object.objectType == tes3.objectType.container and ref.organic) then return end
+		local items = helper.getLootItem()
 		tes3.addItem{
 			reference = ref,
-			item = "glass dagger",
-			count = 10
+			item = items[helper.resolvePriority(#items)],
+			count = 1
 		}
 		event.unregister(tes3.event.activate, addLuckyLoot)
 	end

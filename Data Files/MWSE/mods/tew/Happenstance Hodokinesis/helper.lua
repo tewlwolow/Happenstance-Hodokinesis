@@ -5,6 +5,7 @@ local helper = {}
 
 local config = require("tew.Happenstance Hodokinesis.config")
 local dataHandler = require("tew.Happenstance Hodokinesis.dataHandler")
+local data = require("tew.Happenstance Hodokinesis.data")
 
 -- We need to calculate a chance of good/bad effects to happen, based on the player's Luck --
 function helper.calcActionChance()
@@ -85,6 +86,79 @@ function helper.getScrolls(effect, effectRange)
 	end
 	table.sort(tab, function(a, b) return a.value > b.value end)
 	return tab
+end
+
+function helper.getGeneric(objectType)
+	local tab = {}
+	for _, obj in ipairs(tes3.dataHandler.nonDynamicData.objects) do
+		if obj.objectType == objectType and obj.value then
+			table.insert(tab, obj)
+		end
+	end
+	table.sort(tab, function(a, b) return a.value > b.value end)
+	return tab
+end
+
+function helper.getBestSkill(skillTable)
+	local mp = tes3.mobilePlayer
+	local playerWeaponSkills = {}
+
+	if mp then
+		for i, playerSkill in pairs(mp.skills) do
+			debug.log(i)
+			if skillTable[i - 1] then
+				playerWeaponSkills[i - 1] = playerSkill.current
+			end
+		end
+	end
+
+	local sorted = {}
+	for skillId, val in pairs(playerWeaponSkills) do
+		sorted[val] = sorted[val] or {}
+		table.insert(sorted[val], skillId)
+	end
+
+	return table.choice(sorted[math.max(table.unpack(table.keys(sorted)))])
+end
+
+function helper.getSkilledWeapon(fun)
+	local skillId = fun()
+	debug.log(skillId)
+
+	local tab = {}
+	for _, obj in ipairs(tes3.dataHandler.nonDynamicData.objects) do
+		if obj.objectType == tes3.objectType.weapon and obj.skillId == skillId and obj.value then
+			table.insert(tab, obj)
+		end
+	end
+	table.sort(tab, function(a, b) return a.value > b.value end)
+	return tab
+end
+
+function helper.getSkilledArmor(fun)
+	local skill = fun()
+	local tab = {}
+	for _, obj in ipairs(tes3.dataHandler.nonDynamicData.objects) do
+		if obj.objectType == tes3.objectType.armor and obj.skill == skill and obj.value then
+			table.insert(tab, obj)
+		end
+	end
+	table.sort(tab, function(a, b) return a.value > b.value end)
+	return tab
+end
+
+function helper.getLootItem()
+	local getters = {
+		function() return helper.getSkilledWeapon(helper.getBestSkill(data.weaponSkills)) end,
+		function() return helper.getSkilledArmor(helper.getBestSkill(data.armorSkills)) end,
+		function() return helper.getGeneric(tes3.objectType.scroll) end,
+		function() return helper.getGeneric(tes3.objectType.alchemy) end,
+		function() return helper.getGeneric(tes3.objectType.clothing) end,
+		function() return helper.getGeneric(tes3.objectType.ingredient) end,
+		function() return helper.getGeneric(tes3.objectType.light) end,
+		function() return helper.getGeneric(tes3.objectType.miscItem) end,
+	}
+	return table.choice(getters)()
 end
 
 function helper.roundFloat(n)

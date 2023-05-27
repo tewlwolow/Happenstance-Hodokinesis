@@ -136,5 +136,21 @@ data.blacklistedCells = {
 	["Kogoruhn, Vault of Aerode"] = true
 }
 
+data.weaponSkills = {
+	[tes3.skill.axe] = true,
+	[tes3.skill.spear] = true,
+	[tes3.skill.bluntWeapon] = true,
+	[tes3.skill.longBlade] = true,
+	[tes3.skill.marksman] = true,
+	[tes3.skill.shortBlade] = true
+}
+
+
+data.armorSkills = {
+	[tes3.skill.lightArmor] = true,
+	[tes3.skill.mediumArmor] = true,
+	[tes3.skill.heavyArmor] = true
+}
+
 
 return data
