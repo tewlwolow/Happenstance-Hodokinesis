@@ -23,6 +23,4 @@ end)
 --[[
     TODO:
         Clutter and dialogue
-        Disposition
-        Merchants? Barter boost?
 ]]
