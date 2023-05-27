@@ -348,8 +348,8 @@ function actions.lockMore(ref)
 end
 
 function actions.feather()
-	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 120, 5))
-	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
+	local duration = helper.getBoonDuration()
+	local power = helper.getBoonPower()
 
 	helper.cast(
 		"Pteroma",
@@ -361,9 +361,8 @@ function actions.feather()
 end
 
 function actions.burden()
-	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 5, 120))
-	local maxPower =  helper.resolvePriority(100)
-	local power = math.clamp(math.random(helper.roundFloat(maxPower/3), helper.roundFloat(maxPower + helper.roundFloat(maxPower/3))), 1, 100)
+	local duration = helper.getMalusDuration()
+	local power = helper.getMalusPower()
 
 	helper.cast(
 		"Barophoria",
@@ -496,8 +495,8 @@ function actions.poison()
 end
 
 function actions.underwaterBoon()
-	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 120, 5))
-	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
+	local duration = helper.getBoonDuration()
+	local power = helper.getBoonPower()
 
 	helper.cast(
 		"Ichtioid",
@@ -520,8 +519,8 @@ function actions.teleportOutside()
 end
 
 function actions.calmHostiles()
-	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 120, 5))
-	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
+	local duration = helper.getBoonDuration()
+	local power = helper.getBoonPower()
 	local mp = tes3.mobilePlayer
 	for _, v in ipairs(mp.hostileActors) do
 		helper.cast(
@@ -541,8 +540,8 @@ function actions.calmHostiles()
 end
 
 function actions.sanctuary()
-	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 120, 5))
-	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
+	local duration = helper.getBoonDuration()
+	local power = helper.getBoonPower()
 
 	helper.cast(
 		"Asylion",
@@ -554,8 +553,8 @@ function actions.sanctuary()
 end
 
 function actions.chameleon()
-	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 120, 5))
-	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
+	local duration = helper.getBoonDuration()
+	local power = helper.getBoonPower()
 
 	helper.cast(
 		"Chromaleontis",
@@ -567,8 +566,8 @@ function actions.chameleon()
 end
 
 function actions.invisibility()
-	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 120, 5))
-	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
+	local duration = helper.getBoonDuration()
+	local power = helper.getBoonPower()
 
 	helper.cast(
 		"Adelotesis",
@@ -580,9 +579,8 @@ function actions.invisibility()
 end
 
 function actions.disintegrateWeapon()
-	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 5, 120))
-	local maxPower =  helper.resolvePriority(100)
-	local power = math.clamp(math.random(helper.roundFloat(maxPower/3), helper.roundFloat(maxPower + helper.roundFloat(maxPower/3))), 1, 100)
+	local duration = helper.getMalusDuration()
+	local power = helper.getMalusPower()
 
 	helper.cast(
 		"Melilochysis",
@@ -594,9 +592,8 @@ function actions.disintegrateWeapon()
 end
 
 function actions.disintegrateArmor()
-	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 5, 120))
-	local maxPower =  helper.resolvePriority(100)
-	local power = math.clamp(math.random(helper.roundFloat(maxPower/3), helper.roundFloat(maxPower + helper.roundFloat(maxPower/3))), 1, 100)
+	local duration = helper.getMalusDuration()
+	local power = helper.getMalusPower()
 
 	helper.cast(
 		"Orektomacheia",
@@ -677,8 +674,8 @@ function actions.luckyContainer()
 end
 
 function actions.alchemyBoon()
-	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 120, 5))
-	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
+	local duration = helper.getBoonDuration()
+	local power = helper.getBoonPower()
 
 	helper.cast(
 		"Pharmakonexousia",
@@ -692,9 +689,8 @@ function actions.alchemyBoon()
 end
 
 function actions.alchemyFail()
-	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 5, 120))
-	local maxPower =  helper.resolvePriority(100)
-	local power = math.clamp(math.random(helper.roundFloat(maxPower/3), helper.roundFloat(maxPower + helper.roundFloat(maxPower/3))), 1, 100)
+	local duration = helper.getMalusDuration()
+	local power = helper.getMalusPower()
 
 	helper.cast(
 		"Pharmakonaporia",
@@ -702,9 +698,40 @@ function actions.alchemyFail()
 			{ id = tes3.effect.damageSkill, skill=tes3.skill.alchemy, duration = duration, min = power, max = power },
 		},
 		tes3.player,
-		data.vfx.alteration
+		data.vfx.restoration
 	)
 	helper.showMessage(messages.alchemyFail)
+end
+
+
+function actions.personalityBoon()
+	local duration = helper.getBoonDuration()
+	local power = helper.getBoonPower()
+
+	helper.cast(
+		"Kharis",
+		{
+			{ id = tes3.effect.fortifyAttribute, attribute=tes3.attribute.personality, duration = duration, min = power, max = power },
+		},
+		tes3.player,
+		data.vfx.restoration
+	)
+	helper.showMessage(messages.personalityBoon)
+end
+
+function actions.personalityFail()
+	local duration = helper.getMalusDuration()
+	local power = helper.getMalusPower()
+
+	helper.cast(
+		"Aphanasia",
+		{
+			{ id = tes3.effect.damageAttribute, attribute=tes3.attribute.personality, duration = duration, min = power, max = power },
+		},
+		tes3.player,
+		data.vfx.restoration
+	)
+	helper.showMessage(messages.personalityFail)
 end
 
 --

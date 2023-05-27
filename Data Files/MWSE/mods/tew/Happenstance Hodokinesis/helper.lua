@@ -344,6 +344,31 @@ function helper.isApparatus(ref)
 	return ref.object.objectType == tes3.objectType.apparatus
 end
 
+function helper.isTalkableNPC(ref)
+	if not ref then return false end
+	if (ref.object.objectType == tes3.objectType.npc) then
+		return not ref.isDead and not ref.isDead and not ref.inCombat
+	end
+	return false
+end
+
+function helper.getBoonPower()
+	return helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
+end
+
+function helper.getBoonDuration()
+	return helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 120, 5))
+end
+
+function helper.getMalusPower()
+	local maxPower = helper.resolvePriority(100)
+	return math.clamp(math.random(helper.roundFloat(maxPower/3), helper.roundFloat(maxPower + helper.roundFloat(maxPower/3))), 1, 100)
+end
+
+function helper.getMalusDuration()
+	return helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 5, 120))
+end
+
 -- function helper.joinTables(tables)
 -- 	local output = {}
 -- 	local n = 0
