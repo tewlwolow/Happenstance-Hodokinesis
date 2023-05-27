@@ -698,7 +698,7 @@ function actions.alchemyFail()
 			{ id = tes3.effect.damageSkill, skill=tes3.skill.alchemy, duration = duration, min = power, max = power },
 		},
 		tes3.player,
-		data.vfx.restoration
+		data.vfx.destruction
 	)
 	helper.showMessage(messages.alchemyFail)
 end
@@ -721,17 +721,63 @@ end
 
 function actions.personalityFail()
 	local duration = helper.getMalusDuration()
-	local power = helper.getMalusPower()
+	local power = math.floor(helper.getMalusPower() / 2)
 
 	helper.cast(
 		"Aphanasia",
 		{
-			{ id = tes3.effect.damageAttribute, attribute=tes3.attribute.personality, duration = duration, min = power, max = power },
+			{ id = tes3.effect.damageAttribute, attribute=tes3.attribute.personality, duration = 0, min = power, max = power },
+		},
+		tes3.player,
+		data.vfx.destruction
+	)
+	timer.start{
+		type = timer.game,
+		duration = duration / 60,
+		iterations = 1,
+		callback = function()
+			debug.log("Aphanasia Cure cast!")
+			helper.cast(
+				"Aphanasia Cure",
+				{
+					{ id = tes3.effect.restoreAttribute, attribute=tes3.attribute.personality, duration = 1, min = 100, max = 100 },
+				},
+				tes3.player,
+				data.vfx.restoration
+			)
+		end
+	}
+	helper.showMessage(messages.personalityFail)
+end
+
+function actions.barterBoon()
+	local duration = helper.getBoonDuration()
+	local power = helper.getBoonPower()
+
+	helper.cast(
+		"Euthymeia",
+		{
+			{ id = tes3.effect.fortifySkill, skill=tes3.skill.mercantile, duration = duration, min = power, max = power },
 		},
 		tes3.player,
 		data.vfx.restoration
 	)
-	helper.showMessage(messages.personalityFail)
+	helper.showMessage(messages.barterBoon)
+end
+
+function actions.barterFail()
+	local duration = helper.getMalusDuration()
+	local power = helper.getMalusPower()
+
+	helper.cast(
+		"Chremasmos",
+		{
+			{ id = tes3.effect.damageSkill, skill=tes3.skill.mercantile, duration = duration, min = power, max = power },
+		},
+		tes3.player,
+		data.vfx.destruction
+	)
+	helper.showMessage(messages.barterFail)
 end
 
 --
