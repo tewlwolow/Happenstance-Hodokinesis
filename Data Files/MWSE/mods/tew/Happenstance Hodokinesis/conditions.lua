@@ -123,6 +123,28 @@ end
 
 ---
 
+-- Determine if player is looking at an NPC object. --
+function conditions.playerLookingAtNPC(boon)
+	-- Action definition --
+	-- Order matters. Top = best/less annoying
+	local dispatch = {
+		[true] = {
+			actions.personalityBoon,
+		},
+		[false] = {
+			actions.personalityFail
+		}
+	}
+
+	local priority = helper.resolvePriority(#dispatch[boon])
+
+	local result = tes3.getPlayerTarget()
+
+	return helper.isTalkableNPC(result), dispatch[boon][priority]
+end
+
+---
+
 -- Determine if player is encumbered. --
 function conditions.playerEncumbered(boon)
 	-- Action definition --

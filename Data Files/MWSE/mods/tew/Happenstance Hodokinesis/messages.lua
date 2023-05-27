@@ -60,6 +60,7 @@ messages.luckyContainer = "You have a feeling you will find something valuable s
 messages.alchemyBoon = "Your alchemical prowess surges, empowering your concoctions."
 messages.alchemyFail = "Your alchemical knowledge falters, hindering your potion-making abilities."
 
-
+messages.personalityBoon = "A radiant charm envelops you, enhancing your charisma."
+messages.personalityFail = "A cloud of negativity engulfs your presence, eroding your charm."
 
 return messages
