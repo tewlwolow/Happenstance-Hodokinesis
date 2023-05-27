@@ -834,5 +834,31 @@ function actions.preventEquip()
 	helper.showMessage(messages.clumsy)
 end
 
+function actions.flies()
+	local function playFlies(e)
+		if not e.sound or (e.sound and e.sound.id == "Flies") or not tes3.player then return end
+
+		tes3.playSound{
+			sound = "Flies",
+			pitch = e.pitch * math.random(50, 120) / 100,
+			volume = math.random(50, 100) / 100,
+		}
+		return false
+	end
+
+	event.register(tes3.event.addSound, playFlies)
+
+	timer.start{
+		type = timer.game,
+		duration = 0.5,
+		iterations = 1,
+		callback = function()
+			event.unregister(tes3.event.addSound, playFlies)
+		end
+	}
+
+	helper.showMessage(messages.flies)
+end
+
 --
 return actions
