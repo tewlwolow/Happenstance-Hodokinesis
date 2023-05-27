@@ -9,6 +9,7 @@ random.actions = {
 		actions.summonScrib,
 	},
 	[false] = {
+		actions.flies,
 		actions.flunge,
 		actions.summonScribHostile,
 		actions.preventEquip,

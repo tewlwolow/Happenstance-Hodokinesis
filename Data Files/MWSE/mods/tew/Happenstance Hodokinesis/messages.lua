@@ -74,4 +74,6 @@ messages.flungedOutside = "You are magically teleported outside."
 messages.preventEquip = function(item) return string.format("Whoops! Your lack of coordination causes %s to slip through your fingers.", item) end
 messages.clumsy = "You can't seem to shake off the aura of clumsiness that surrounds you."
 
+messages.flies = "A vexing buzzing fills the air, as if a thousand flies have taken residence all around you."
+
 return messages

@@ -91,7 +91,7 @@ end
 function helper.getGeneric(objectType)
 	local tab = {}
 	for _, obj in ipairs(tes3.dataHandler.nonDynamicData.objects) do
-		if obj.objectType == objectType and obj.value then
+		if obj.objectType == objectType and obj.value and not obj.isKey then
 			table.insert(tab, obj)
 		end
 	end
