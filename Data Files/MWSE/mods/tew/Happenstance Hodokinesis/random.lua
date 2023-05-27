@@ -9,11 +9,11 @@ random.actions = {
 		actions.summonScrib,
 	},
 	[false] = {
+		actions.preventEquip,
 		actions.flies,
 		actions.flunge,
-		actions.summonScribHostile,
-		actions.preventEquip,
 		actions.teleportRandom,
+		actions.summonScribHostile,
 	}
 }
 
