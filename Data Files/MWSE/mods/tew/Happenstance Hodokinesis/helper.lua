@@ -347,7 +347,34 @@ end
 function helper.isTalkableNPC(ref)
 	if not ref then return false end
 	if (ref.object.objectType == tes3.objectType.npc) then
-		return not ref.isDead and not ref.isDead and not ref.inCombat
+		return not ref.isDead and not ref.inCombat
+	end
+	return false
+end
+
+function helper.isMerchant(ref)
+	if not ref then return false end
+	if (ref.object.objectType == tes3.objectType.npc) then
+		local ai = ref.object.aiConfig
+		local barters = false
+		if
+			ai.bartersAlchemy or
+			ai.bartersApparatus or
+			ai.bartersArmor or
+			ai.bartersBooks or
+			ai.bartersClothing or
+			ai.bartersEnchantedItems or
+			ai.bartersIngredients or
+			ai.bartersLights or
+			ai.bartersLockpicks or
+			ai.bartersMiscItems or
+			ai.bartersProbes or
+			ai.bartersRepairTools or
+			ai.bartersWeapons
+		then
+			barters = true
+		end
+		return barters and not ref.isDead and not ref.inCombat
 	end
 	return false
 end

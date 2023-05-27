@@ -63,4 +63,7 @@ messages.alchemyFail = "Your alchemical knowledge falters, hindering your potion
 messages.personalityBoon = "A radiant charm envelops you, enhancing your charisma."
 messages.personalityFail = "A cloud of negativity engulfs your presence, eroding your charm."
 
+messages.barterBoon = "Your knack for commerce grows, enhancing your mercantile skill."
+messages.barterFail = "Misfortune befalls your trade ventures, lowering your mercantile skill."
+
 return messages

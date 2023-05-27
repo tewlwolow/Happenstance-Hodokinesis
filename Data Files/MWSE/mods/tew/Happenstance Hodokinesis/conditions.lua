@@ -123,7 +123,7 @@ end
 
 ---
 
--- Determine if player is looking at an NPC object. --
+-- Determine if player is looking at a NPC object. --
 function conditions.playerLookingAtNPC(boon)
 	-- Action definition --
 	-- Order matters. Top = best/less annoying
@@ -141,6 +141,28 @@ function conditions.playerLookingAtNPC(boon)
 	local result = tes3.getPlayerTarget()
 
 	return helper.isTalkableNPC(result), dispatch[boon][priority]
+end
+
+---
+
+-- Determine if player is looking at a merchant NPC object. --
+function conditions.playerLookingAtMerchant(boon)
+	-- Action definition --
+	-- Order matters. Top = best/less annoying
+	local dispatch = {
+		[true] = {
+			actions.barterBoon,
+		},
+		[false] = {
+			actions.barterFail
+		}
+	}
+
+	local priority = helper.resolvePriority(#dispatch[boon])
+
+	local result = tes3.getPlayerTarget()
+
+	return helper.isMerchant(result), dispatch[boon][priority]
 end
 
 ---
