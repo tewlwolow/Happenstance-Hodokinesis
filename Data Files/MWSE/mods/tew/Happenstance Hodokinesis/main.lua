@@ -23,4 +23,5 @@ end)
 --[[
     TODO:
         Clutter and dialogue
+        create tew_hodo_scrib in clean esp
 ]]
