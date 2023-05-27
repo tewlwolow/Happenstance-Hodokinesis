@@ -50,12 +50,14 @@ messages.damageHostiles = "Your foes vital energy crumbles as they weaken."
 messages.luckIncreased = "Fortune smiles upon you, bestowing an increase in luck."
 
 messages.scribSummoned = "A friendly scrib appears, scuttling about with curiosity and a hint of mischief."
+messages.scribSummonedHostile = "Beware! A colossal scrib emerges, ready to unleash its fury."
 
 messages.teleportRandom = "You find yourself in a completely new location."
 
 messages.aleaInactive = "Alepsychon seems drained of any magical essence."
 
-messages.luckyContainer = "You have a feeling you will find something valuable soon."
+messages.luckyContainer = "You have a feeling you will find something interesting soon, or maybe not all..."
+messages.luckyContainerOpened = "There it is!"
 
 messages.alchemyBoon = "Your alchemical prowess surges, empowering your concoctions."
 messages.alchemyFail = "Your alchemical knowledge falters, hindering your potion-making abilities."
@@ -65,5 +67,11 @@ messages.personalityFail = "A cloud of negativity engulfs your presence, eroding
 
 messages.barterBoon = "Your knack for commerce grows, enhancing your mercantile skill."
 messages.barterFail = "Misfortune befalls your trade ventures, lowering your mercantile skill."
+
+messages.flungedAir =  "You find yourself flunged high up into the air."
+messages.flungedOutside = "You are magically teleported outside."
+
+messages.preventEquip = function(item) return string.format("Whoops! Your lack of coordination causes %s to slip through your fingers.", item) end
+messages.clumsy = "You can't seem to shake off the aura of clumsiness that surrounds you."
 
 return messages

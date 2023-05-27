@@ -4,14 +4,15 @@ local actions = require("tew.Happenstance Hodokinesis.actions")
 
 random.actions = {
 	[true] = {
-		-- actions.teleportRandom,
+		actions.teleportRandom,
 		actions.luckyContainer,
-		-- actions.summonScrib,
+		actions.summonScrib,
 	},
 	[false] = {
-		-- actions.teleportRandom,
-		actions.luckyContainer,
-		-- actions.summonScrib,
+		actions.flunge,
+		actions.summonScribHostile,
+		actions.preventEquip,
+		actions.teleportRandom,
 	}
 }
 

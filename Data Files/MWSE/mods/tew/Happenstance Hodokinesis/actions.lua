@@ -643,6 +643,16 @@ function actions.summonScrib()
 	helper.showMessage(messages.scribSummoned)
 end
 
+function actions.summonScribHostile()
+	local scrib = tes3.createReference{
+		object = "tew_hodo_scrib",
+		position = tes3.mobilePlayer.reference.position,
+		orientation = tes3.mobilePlayer.reference.orientation,
+		cell = tes3.player.cell,
+	}
+	helper.showMessage(messages.scribSummonedHostile)
+end
+
 function actions.teleportRandom()
 	local teleportCell, positions = helper.getRandomCellRefPositions()
 	while (table.empty(positions)) or (data.blacklistedCells[teleportCell.editorName]) do
@@ -667,6 +677,7 @@ function actions.luckyContainer()
 			item = items[helper.resolvePriority(#items)],
 			count = 1
 		}
+		helper.showMessage(messages.luckyContainerOpened)
 		event.unregister(tes3.event.activate, addLuckyLoot)
 	end
 	event.register(tes3.event.activate, addLuckyLoot)
@@ -778,6 +789,49 @@ function actions.barterFail()
 		data.vfx.destruction
 	)
 	helper.showMessage(messages.barterFail)
+end
+
+function actions.flunge()
+	local mp = tes3.mobilePlayer
+	if mp then
+		local teleportCell = tes3.player.cell
+		if teleportCell.isOrBehavesAsExterior then
+			local pos = mp.position:copy()
+			pos.z = pos.z + 4000
+			if teleportCell then
+				helper.cast(
+					"Bradyseismos",
+					{
+						{ id = tes3.effect.slowFall, skill=tes3.skill.mercantile, duration = 60, min = 1, max = 100 },
+					},
+					tes3.player,
+					data.vfx.alteration
+				)
+				tes3.positionCell{
+					position = pos,
+					cell = teleportCell
+				}
+				helper.showMessage(messages.flungedAir)
+			end
+		else
+			if teleportCell then
+				tes3.positionCell{
+					position = tes3.getLastExteriorPosition(),
+				}
+				helper.showMessage(messages.flungedOutside)
+			end
+		end
+	end
+end
+
+function actions.preventEquip()
+	local function butterfingers(e)
+		event.unregister(tes3.event.equip, butterfingers)
+		helper.showMessage(messages.preventEquip(e.item.name))
+		e.block = true
+	end
+	event.register(tes3.event.equip, butterfingers)
+	helper.showMessage(messages.clumsy)
 end
 
 --
