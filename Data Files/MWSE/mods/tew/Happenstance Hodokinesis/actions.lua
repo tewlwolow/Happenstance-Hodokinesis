@@ -348,7 +348,7 @@ function actions.lockMore(ref)
 end
 
 function actions.feather()
-	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 240, 5))
+	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 120, 5))
 	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
 
 	helper.cast(
@@ -361,8 +361,9 @@ function actions.feather()
 end
 
 function actions.burden()
-	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 5, 240))
-	local power =  helper.resolvePriority(100)
+	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 5, 120))
+	local maxPower =  helper.resolvePriority(100)
+	local power = math.clamp(math.random(helper.roundFloat(maxPower/3), helper.roundFloat(maxPower + helper.roundFloat(maxPower/3))), 1, 100)
 
 	helper.cast(
 		"Barophoria",
@@ -495,7 +496,7 @@ function actions.poison()
 end
 
 function actions.underwaterBoon()
-	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 240, 5))
+	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 120, 5))
 	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
 
 	helper.cast(
@@ -519,7 +520,7 @@ function actions.teleportOutside()
 end
 
 function actions.calmHostiles()
-	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 240, 5))
+	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 120, 5))
 	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
 	local mp = tes3.mobilePlayer
 	for _, v in ipairs(mp.hostileActors) do
@@ -540,7 +541,7 @@ function actions.calmHostiles()
 end
 
 function actions.sanctuary()
-	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 240, 5))
+	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 120, 5))
 	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
 
 	helper.cast(
@@ -553,7 +554,7 @@ function actions.sanctuary()
 end
 
 function actions.chameleon()
-	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 240, 5))
+	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 120, 5))
 	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
 
 	helper.cast(
@@ -566,7 +567,7 @@ function actions.chameleon()
 end
 
 function actions.invisibility()
-	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 240, 5))
+	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 120, 5))
 	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
 
 	helper.cast(
@@ -579,8 +580,9 @@ function actions.invisibility()
 end
 
 function actions.disintegrateWeapon()
-	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 5, 240))
-	local power =  helper.resolvePriority(100)
+	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 5, 120))
+	local maxPower =  helper.resolvePriority(100)
+	local power = math.clamp(math.random(helper.roundFloat(maxPower/3), helper.roundFloat(maxPower + helper.roundFloat(maxPower/3))), 1, 100)
 
 	helper.cast(
 		"Melilochysis",
@@ -592,8 +594,9 @@ function actions.disintegrateWeapon()
 end
 
 function actions.disintegrateArmor()
-	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 5, 240))
-	local power =  helper.resolvePriority(100)
+	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 5, 120))
+	local maxPower =  helper.resolvePriority(100)
+	local power = math.clamp(math.random(helper.roundFloat(maxPower/3), helper.roundFloat(maxPower + helper.roundFloat(maxPower/3))), 1, 100)
 
 	helper.cast(
 		"Orektomacheia",
@@ -671,6 +674,37 @@ function actions.luckyContainer()
 	end
 	event.register(tes3.event.activate, addLuckyLoot)
 	helper.showMessage(messages.luckyContainer)
+end
+
+function actions.alchemyBoon()
+	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 120, 5))
+	local power =  helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 100, 1))
+
+	helper.cast(
+		"Pharmakonexousia",
+		{
+			{ id = tes3.effect.fortifySkill, skill=tes3.skill.alchemy, duration = duration, min = power, max = power },
+		},
+		tes3.player,
+		data.vfx.restoration
+	)
+	helper.showMessage(messages.alchemyBoon)
+end
+
+function actions.alchemyFail()
+	local duration = helper.roundFloat(math.remap(helper.resolvePriority(100), 1, 100, 5, 120))
+	local maxPower =  helper.resolvePriority(100)
+	local power = math.clamp(math.random(helper.roundFloat(maxPower/3), helper.roundFloat(maxPower + helper.roundFloat(maxPower/3))), 1, 100)
+
+	helper.cast(
+		"Pharmakonaporia",
+		{
+			{ id = tes3.effect.damageSkill, skill=tes3.skill.alchemy, duration = duration, min = power, max = power },
+		},
+		tes3.player,
+		data.vfx.alteration
+	)
+	helper.showMessage(messages.alchemyFail)
 end
 
 --
