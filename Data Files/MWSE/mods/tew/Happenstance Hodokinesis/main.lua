@@ -19,9 +19,3 @@ event.register(tes3.event.initialized, init)
 event.register(tes3.event.modConfigReady, function()
     dofile("Data Files\\MWSE\\mods\\tew\\Happenstance Hodokinesis\\mcm.lua")
 end)
-
---[[
-    TODO:
-        Clutter and dialogue
-        create tew_hodo_scrib in clean esp
-]]
