@@ -23,7 +23,6 @@ end)
 --[[
     TODO:
         Clutter and dialogue
-        Container lucky encounters at random (item tiers)
         Alchemy
         Disposition
         Merchants? Barter boost?
