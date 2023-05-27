@@ -11,7 +11,7 @@ local data = require("tew.Happenstance Hodokinesis.data")
 function helper.calcActionChance()
 	return math.clamp(
 		(
-			(tes3.mobilePlayer.luck.current / 100) - (dataHandler.getUsedPerDay(tes3.worldController.daysPassed.value) / 50)
+			((tes3.mobilePlayer.luck.current + math.random(1, 10)) / 100) - (dataHandler.getUsedPerDay(tes3.worldController.daysPassed.value) / 50)
 		),
 		0.01,
 		1.0
@@ -337,6 +337,11 @@ end
 
 function helper.getUsageLimit()
 	return helper.roundFloat((math.remap(tes3.mobilePlayer.luck.current, 1, 100, 1, 10)))
+end
+
+function helper.isApparatus(ref)
+	if not ref then return false end
+	return ref.object.objectType == tes3.objectType.apparatus
 end
 
 -- function helper.joinTables(tables)
