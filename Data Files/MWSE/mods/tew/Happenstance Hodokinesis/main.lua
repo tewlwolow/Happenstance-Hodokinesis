@@ -23,7 +23,6 @@ end)
 --[[
     TODO:
         Clutter and dialogue
-        Alchemy
         Disposition
         Merchants? Barter boost?
 ]]
