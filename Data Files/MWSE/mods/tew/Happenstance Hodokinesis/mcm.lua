@@ -21,8 +21,7 @@ mainPage:createCategory {
 
 mainPage:createSlider(
     {
-        label = string.format("Vitals threshold. Default = %s%%. Percent chance:", defaults.vitalsThreshold),
-        description = "This controls the current percentage threshold of player's max health, fatigue, and magicka to be considered a factor.",
+        label = string.format("This setting controls the current percentage threshold of player's max health, fatigue, and magicka to be considered a factor. Default = %s%%. Percent chance:", defaults.vitalsThreshold),
         min = 0,
         max = 100,
         step = 1,
@@ -30,6 +29,11 @@ mainPage:createSlider(
         variable = registerVariable("vitalsThreshold")
     }
 )
+
+mainPage:createYesNoButton {
+	label = "Show messages on action trigger?",
+	variable = registerVariable("showInfoMessages"),
+}
 
 template:saveOnClose(configPath, config)
 mwse.mcm.register(template)
