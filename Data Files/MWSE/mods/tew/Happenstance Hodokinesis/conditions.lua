@@ -101,6 +101,27 @@ end
 
 ---
 
+-- Determine if player is looking at an apparatus object. --
+function conditions.playerLookingAtApparatus(boon)
+	-- Action definition --
+	-- Order matters. Top = best/less annoying
+	local dispatch = {
+		[true] = {
+			actions.alchemyBoon,
+		},
+		[false] = {
+			actions.alchemyFail
+		}
+	}
+
+	local priority = helper.resolvePriority(#dispatch[boon])
+
+	local result = tes3.getPlayerTarget()
+
+	return helper.isApparatus(result), dispatch[boon][priority]
+end
+
+---
 
 -- Determine if player is encumbered. --
 function conditions.playerEncumbered(boon)

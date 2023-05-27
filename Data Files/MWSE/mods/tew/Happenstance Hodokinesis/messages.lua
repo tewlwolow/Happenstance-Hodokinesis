@@ -57,4 +57,9 @@ messages.aleaInactive = "Alepsychon seems drained of any magical essence."
 
 messages.luckyContainer = "You have a feeling you will find something valuable soon."
 
+messages.alchemyBoon = "Your alchemical prowess surges, empowering your concoctions."
+messages.alchemyFail = "Your alchemical knowledge falters, hindering your potion-making abilities."
+
+
+
 return messages
