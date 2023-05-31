@@ -33,7 +33,7 @@ function controller.roll()
 
 	-- Roll a dice to get a randomised applicable action to take. --
 	local rolledAction = table.choice(currentConditions)
-	if not rolledAction then
+	if (not rolledAction) or (0.2 > math.random()) then
 		rolledAction = table.choice(random.actions[boon])
 	end
 
