@@ -10,6 +10,13 @@ local function init()
     else
         mwse.log("[" .. metadata.package.name .."] Version " .. metadata.package.version .. " initialised.")
 	end
+
+    -- Custom Icon for Skyrim Style Quest Notifications
+    local ssqn = include("SSQN.interop")
+    if (ssqn)  then
+        ssqn.registerQIcon("tew_hodokinesis","\\Icons\\tew\\hodokinesis\\quest_hodokinesis.tga")
+    end
+
     dofile("Data Files\\MWSE\\mods\\tew\\Happenstance Hodokinesis\\events.lua")
 end
 
