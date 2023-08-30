@@ -2,7 +2,7 @@
 name = "Happenstance Hodokinesis"
 description = "A mod that adds a new randomised adventure/gameplay effects based on the player's Luck. Use Shift+H or activate the item from your inventory."
 authors = ["tewlwolow"]
-version = "1.0.0"
+version = "1.0.1"
 homepage = "https://www.nexusmods.com/morrowind/mods/52996"
 repository = "https://github.com/tewlwolow/Happenstance-Hodokinesis"
 
