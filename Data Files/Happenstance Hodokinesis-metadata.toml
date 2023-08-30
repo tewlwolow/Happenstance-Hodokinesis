@@ -11,6 +11,14 @@ repository = "https://github.com/tewlwolow/Happenstance-Hodokinesis"
 lua-mod = "tew.Happenstance Hodokinesis"
 wait-until-initialize = false
 
+[dependencies]
+assets = [
+	"Meshes\\tew\\hodokinesis",
+	"Textures\\tew\\hodokinesis",
+	"Sound\\tew\\hodokinesis",
+	"Icons\\tew\\hodokinesis"
+]
+
 [dependencies.mwse]
 buildnumber = 3212
 
